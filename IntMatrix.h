@@ -13,8 +13,10 @@ namespace mtm {
         IntMatrix(const IntMatrix& matrix);
         ~IntMatrix();
         IntMatrix& operator=(const IntMatrix& matrix);
-        static IntMatrix& Identity(int size); 
-        static int* getData(const IntMatrix& matrix);
+        static IntMatrix& Identity(int size); //no need for this pointer so is static
+        IntMatrix& transpose();
+        int& operator()(int row, int col);
+        const int& operator()(int row, int col) const;
         int height();
         int width();
         int size();
