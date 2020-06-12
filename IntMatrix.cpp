@@ -111,3 +111,13 @@ mtm::IntMatrix mtm::operator-(const IntMatrix& matrix1, const IntMatrix& matrix2
     sub_matrix = matrix1 + (-matrix2);
     return sub_matrix;
 }
+
+mtm::IntMatrix& mtm::IntMatrix::operator+=(const int num) {
+    mtm::IntMatrix to_add(this->dims, num);
+    return (*this + to_add);
+}
+
+mtm::IntMatrix mtm::operator+(const IntMatrix& matrix, const int num) {
+    IntMatrix sum_matrix(matrix);
+    return (sum_matrix += num);
+}

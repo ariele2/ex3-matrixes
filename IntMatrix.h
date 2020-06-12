@@ -21,9 +21,11 @@ namespace mtm {
         int& operator()(int row, int col);
         const int& operator()(int row, int col) const;
         IntMatrix operator-() const;
+        IntMatrix& operator+=(const int num);
     };
     IntMatrix operator+(const IntMatrix& matrix1, const IntMatrix& matrix2);
     IntMatrix operator-(const IntMatrix& matrix1, const IntMatrix& matrix2);
+    IntMatrix operator+(const IntMatrix& matrix, const int num);
 } 
 
 #endif //INT_MATRIX_H
