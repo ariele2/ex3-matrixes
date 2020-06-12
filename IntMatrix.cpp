@@ -48,15 +48,15 @@ mtm::IntMatrix& Identity(int size) {
     return identity;
 }
 
-int mtm::IntMatrix::height() {
+int mtm::IntMatrix::height() const {
     return this->dims.getRow();
 }
 
-int mtm::IntMatrix::width() {
+int mtm::IntMatrix::width() const {
     return this->dims.getCol();
 }
 
-int mtm::IntMatrix::size() {
+int mtm::IntMatrix::size() const {
     return (this->dims.getRow() * this->dims.getCol());
 }
 
@@ -79,4 +79,35 @@ mtm::IntMatrix& mtm::IntMatrix::transpose() {
             trans_matrix(j,i) = (*this)(i,j);
         }
     }
+    return trans_matrix;
+}
+
+mtm::IntMatrix mtm::operator+(const IntMatrix& matrix1, const IntMatrix& matrix2) {
+    assert(matrix1.height() == matrix2.height() && matrix1.width() == matrix2.width());
+    mtm::Dimensions sum_dims(matrix1.height(), matrix1.width());
+    mtm::IntMatrix sum_matrix(sum_dims);
+    for (int i=0; i<sum_matrix.height(); i++) {
+        for (int j=0; j<sum_matrix.width(); j++) {
+            sum_matrix(i,j) = matrix1(i,j) + matrix2(i,j);
+        }
+    }
+    return sum_matrix;
+}
+
+mtm::IntMatrix mtm::IntMatrix::operator-() const {
+    mtm::IntMatrix new_matrix(this->dims);
+    for (int i=0; i<dims.getRow(); i++) {
+        for (int j=0; j<dims.getCol(); j++) {
+            new_matrix(i,j) = -(*this)(i,j);
+        }
+    }
+    return new_matrix;
+}
+
+mtm::IntMatrix mtm::operator-(const IntMatrix& matrix1, const IntMatrix& matrix2) {
+    assert(matrix1.height() == matrix2.height() && matrix1.width() == matrix2.width());
+    mtm::Dimensions sub_dims(matrix1.height(), matrix1.width());
+    mtm::IntMatrix sub_matrix(sub_dims);
+    sub_matrix = matrix1 + (-matrix2);
+    return sub_matrix;
 }

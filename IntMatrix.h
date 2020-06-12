@@ -15,12 +15,15 @@ namespace mtm {
         IntMatrix& operator=(const IntMatrix& matrix);
         static IntMatrix& Identity(int size); //no need for this pointer so is static
         IntMatrix& transpose();
+        int height() const;
+        int width() const;
+        int size() const;
         int& operator()(int row, int col);
         const int& operator()(int row, int col) const;
-        int height();
-        int width();
-        int size();
+        IntMatrix operator-() const;
     };
-}
+    IntMatrix operator+(const IntMatrix& matrix1, const IntMatrix& matrix2);
+    IntMatrix operator-(const IntMatrix& matrix1, const IntMatrix& matrix2);
+} 
 
 #endif //INT_MATRIX_H
