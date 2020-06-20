@@ -215,6 +215,14 @@ mtm::Matrix<bool>& mtm::Matrix<T>::inverseMatrix() {
 }
 
 template <class T>
+std::ostream& mtm::operator<<(std::ostream& os, const mtm::Matrix<T>& matrix) {
+    std::string string_matrix;
+
+    string_matrix = mtm::printMatrix(os,matrix.begin(),matrix.end(),matrix.width());
+    return os<<string_matrix;
+}
+
+template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator==(T num) const{
     mtm::Matrix<bool> result_mat(this->dims,false);
     for (int i=0; i<result_mat.height(); i++) {
