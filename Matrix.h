@@ -25,26 +25,27 @@ namespace mtm {
         int height() const;
         int width() const;
         int size() const;
-        int& operator()(int row, int col);
-        const int& operator()(int row, int col) const;
+        T& operator()(int row, int col);
+        const T& operator()(int row, int col) const;
         Matrix operator-() const;
-        Matrix& operator+=(const int num);
+        Matrix& operator+=(const T num);
         friend std::ostream& operator<<(std::ostream& os, const Matrix& matrix);
-        Matrix& inverseMatrix();
-        Matrix operator==(int num) const;
-        Matrix operator!=(int num) const;
-        Matrix operator>(int num) const;
-        Matrix operator<(int num) const;
-        Matrix operator<=(int num) const;
-        Matrix operator>=(int num) const;
+        Matrix<bool>& inverseMatrix();
+        Matrix<bool> operator==(T num) const;
+        Matrix<bool> operator!=(T num) const;
+        Matrix<bool> operator>(T num) const;
+        Matrix<bool> operator<(T num) const;
+        Matrix<bool> operator<=(T num) const;
+        Matrix<bool> operator>=(T num) const;
     };
-    class Matrix::iterator {
+    template <class T>
+    class Matrix<T>::iterator {
         Matrix* matrix;
         int index;
         iterator(Matrix* matrix, int index);
         friend class Matrix;
         public:
-        int& operator*() const;
+        T& operator*() const;
         iterator& operator++();
         iterator operator++(int);
         bool operator==(const iterator& it) const;
@@ -53,13 +54,14 @@ namespace mtm {
         iterator(const iterator&) = default;
         iterator& operator=(const iterator&) = default;
     };
-    class Matrix::const_iterator {
+    template <class T>
+    class Matrix<T>::const_iterator {
         const Matrix* matrix;
         int index;
         const_iterator(const Matrix* matrix, int index);
         friend class Matrix;
         public:
-        const int& operator*() const;
+        const T& operator*() const;
         const const_iterator& operator++();
         const const_iterator operator++(int);
         bool operator==(const const_iterator& it) const;
@@ -68,16 +70,20 @@ namespace mtm {
         const_iterator(const const_iterator&) = default;
         const_iterator& operator=(const const_iterator&) = default;
     };
-    std::ostream& operator<<(std::ostream& os, const Matrix& matrix);
+    template <class T>
+    std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix);
     template <class T>
     Matrix<T> operator+(const Matrix<T>& matrix1, const Matrix<T>& matrix2);
     template <class T>
     Matrix<T> operator-(const Matrix<T>& matrix1, const Matrix<T>& matrix2);
     template <class T>
     Matrix<T> operator+(const Matrix<T>& matrix, const T num);
-    Matrix operator+(const int num, const Matrix& matrix);
-    bool any(const Matrix& matrix);
-    bool all(const Matrix& matrix);
+    template <class T>
+    Matrix<T> operator+(const int num, const Matrix<T>& matrix);
+    template <class T>
+    bool any(const Matrix<T>& matrix);
+    template <class T>
+    bool all(const Matrix<T>& matrix);
 } 
 
 template <class T>
@@ -99,7 +105,7 @@ mtm::Matrix<T>::Matrix(const Matrix<T>& matrix):
  }
 
 template <class T>
-mtm::Matrix<T>::~IntMatrix() {
+mtm::Matrix<T>::~Matrix() {
     delete[] this->data;
 }
 
@@ -147,7 +153,7 @@ mtm::Matrix<T> mtm::Matrix<T>::transpose() const {
 template <class T>
 mtm::Matrix<T> operator+(const mtm::Matrix<T>& matrix1, const mtm::Matrix<T>& matrix2) {
     mtm::Dimensions sum_dims(matrix1.height(), matrix1.width());
-    mtm::IntMatrix sum_matrix(sum_dims);
+    mtm::Matrix<T> sum_matrix(sum_dims);
     for (int i=0; i<sum_matrix.height(); i++) {
         for (int j=0; j<sum_matrix.width(); j++) {
             sum_matrix(i,j) = matrix1(i,j) + matrix2(i,j);
@@ -158,7 +164,7 @@ mtm::Matrix<T> operator+(const mtm::Matrix<T>& matrix1, const mtm::Matrix<T>& ma
 
 template <class T>
 mtm::Matrix<T> mtm::Matrix<T>::operator-() const {
-    mtm::IntMatrix new_matrix(this->dims);
+    mtm::Matrix<T> new_matrix(this->dims);
     for (int i=0; i<dims.getRow(); i++) {
         for (int j=0; j<dims.getCol(); j++) {
             new_matrix(i,j) = -(*this)(i,j);
@@ -171,24 +177,217 @@ template <class T>
 mtm::Matrix<T> operator-(const mtm::Matrix<T>& matrix1, const mtm::Matrix<T>& matrix2) {
     assert(matrix1.height() == matrix2.height() && matrix1.width() == matrix2.width());
     mtm::Dimensions sub_dims(matrix1.height(), matrix1.width());
-    mtm::IntMatrix sub_matrix(sub_dims);
+    mtm::Matrix<T> sub_matrix(sub_dims);
     sub_matrix = matrix1 + (-matrix2);
     return sub_matrix;
 }
 
 template <class T>
-mtm::Matrix<T>& mtm::Matrix<T>::operator+=(const int num) {
-    mtm::IntMatrix to_add(this->dims, num);
+mtm::Matrix<T>& mtm::Matrix<T>::operator+=(const T num) {
+    mtm::Matrix<T> to_add(this->dims, num);
     *this = *this + to_add;
     return *this;
 }
 
 template <class T>
 mtm::Matrix<T> mtm::operator+(const mtm::Matrix<T>& matrix, const T num) {
-    IntMatrix sum_matrix(matrix);
+    Matrix<T> sum_matrix(matrix);
     return (sum_matrix += num);
 }
 
+template <class T>
+T& mtm::Matrix<T>::operator()(int row, int col){
+    return data[dims.getCol()*row + col];
+}
+
+template <class T>
+const T& mtm::Matrix<T>::operator()(int row, int col) const{
+    return data[dims.getCol()*row + col];
+}
+template<class T>
+mtm::Matrix<bool>& mtm::Matrix<T>::inverseMatrix() {
+    for (int i=0; i<(*this).height(); i++) {
+        for (int j=0; j<(*this).width(); j++) {
+            (*this)(i,j) = !(*this)(i,j);
+        }
+    }
+    return (*this);
+}
+
+template <class T>
+mtm::Matrix<bool> mtm::Matrix<T>::operator==(T num) const{
+    mtm::Matrix<bool> result_mat(this->dims,false);
+    for (int i=0; i<result_mat.height(); i++) {
+        for (int j=0; j<result_mat.width(); j++) {
+            if ((*this)(i,j) == num) {
+                result_mat(i,j) = true;
+            }
+        }
+    }
+    return result_mat;
+}
+
+template <class T>
+mtm::Matrix<bool> mtm::Matrix<T>::operator!=(T num) const {
+    mtm::Matrix<bool> result_mat(this->dims);
+    result_mat = (*this) == num;
+    return result_mat.inverseMatrix();
+}
+
+template <class T>
+mtm::Matrix<bool> mtm::Matrix<T>::operator>(T num) const {
+    mtm::Matrix<bool> result_mat(this->dims,false);
+    for (int i=0; i<result_mat.height(); i++) {
+        for (int j=0; j<result_mat.width(); j++) {
+            if ((*this)(i,j) > num) {
+                result_mat(i,j) = true;
+            }
+        }
+    }
+    return result_mat;
+} 
+
+template <class T>
+mtm::Matrix<bool> mtm::Matrix<T>::operator<(T num) const {
+    mtm::Matrix<bool> result_mat(this->dims,false);
+    for (int i=0; i<result_mat.height(); i++) {
+        for (int j=0; j<result_mat.width(); j++) {
+            if ((*this)(i,j) < num) {
+                result_mat(i,j) = true;
+            }
+        }
+    }
+    return result_mat;
+}
+
+template <class T>
+mtm::Matrix<bool> mtm::Matrix<T>::operator<=(T num) const {
+    mtm::Matrix<bool> result_mat(this->dims);
+    result_mat = (*this) > num;
+    return result_mat.inverseMatrix();
+}
+
+template <class T>
+mtm::Matrix<bool> mtm::Matrix<T>::operator>=(T num) const {
+    mtm::Matrix<boo> result_mat(this->dims);
+    result_mat = (*this) < num;
+    return result_mat.inverseMatrix();
+}
+
+template <class T>
+bool mtm::any(const Matrix<T>& matrix) {
+    for (int i=0; i<matrix.height(); i++) {
+        for(int j=0; j<matrix.width(); j++) {
+            if (matrix(i,j) != false) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+template <class T>
+bool mtm::all(const Matrix<T>& matrix) {
+    for (int i=0; i<matrix.height(); i++) {
+        for(int j=0; j<matrix.width(); j++) {
+            if (matrix(i,j) == false) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+template <class T>
+mtm::Matrix<T>::iterator::iterator(mtm::Matrix<T>* matrix, int index):
+ matrix(matrix),
+ index(index)
+{}
+
+template <class T>
+T& mtm::Matrix<T>::iterator::operator*() const {
+    assert(index >= 0 && index < matrix->size());
+    return matrix->data[index];
+}
+
+template <class T>
+mtm::Matrix<T>::iterator& mtm::Matrix<T>::iterator::operator++() {
+    ++index;
+    return *this;
+}
+
+template <class T>
+mtm::Matrix<T>::iterator mtm::Matrix<T>::iterator::operator++(int) {
+    iterator result = *this;
+    ++*this;
+    return result;
+} 
+
+template <class T>
+bool mtm::Matrix<T>::iterator::operator==(const iterator& i) const {
+    assert(matrix == i.matrix);
+    return index == i.index;
+}
+
+template <class T>
+bool mtm::Matrix<T>::iterator::operator!=(const iterator& i) const {
+    return !(*this == i);
+}
+
+template <class T>
+mtm::Matrix<T>::iterator mtm::Matrix<T>::begin() {
+    return iterator(this, 0);
+}
+
+template <class T>
+mtm::Matrix<T>::iterator mtm::Matrix<T>::end() {
+    return iterator(this, this->size());
+}
+
+template <class T>
+mtm::Matrix<T>::const_iterator::const_iterator(const mtm::Matrix<T>* matrix, int index):
+ matrix(matrix),
+ index(index)
+{}
+
+template <class T>
+const T& mtm::Matrix<T>::const_iterator::operator*() const {
+    assert(index >= 0 && index < matrix->size());
+    return matrix->data[index];
+}
+
+template <class T>
+const mtm::Matrix<T>::const_iterator& mtm::Matrix<T>::const_iterator::operator++() {
+    ++index;
+    return *this;
+}
+
+template <class T>
+const mtm::Matrix<T>::const_iterator mtm::Matrix<T>::const_iterator::operator++(int) {
+    const_iterator result = *this;
+    ++*this;
+    return result;
+} 
+
+template <class T>
+bool mtm::Matrix<T>::const_iterator::operator==(const const_iterator& i) const {
+    assert(matrix == i.matrix);
+    return index == i.index;
+}
+
+template <class T>
+bool mtm::Matrix<T>::const_iterator::operator!=(const const_iterator& i) const {
+    return !(*this == i);
+}
+
+template <class T>
+const mtm::Matrix<T>::const_iterator mtm::Matrix<T>::begin() const {
+    return const_iterator(this, 0);
+}
+
+template <class T>
+const mtm::Matrix<T>::const_iterator mtm::Matrix<T>::end() const{
+    return const_iterator(this, this->size());
+}
+
 #endif //MATRIX_H
-
-
