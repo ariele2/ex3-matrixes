@@ -40,9 +40,9 @@ namespace mtm {
     };
     template <class T>
     class Matrix<T>::iterator {
-        Matrix* matrix;
+        Matrix<T>* matrix;
         int index;
-        iterator(Matrix* matrix, int index);
+        iterator(Matrix<T>* matrix, int index);
         friend class Matrix;
         public:
         T& operator*() const;
@@ -56,9 +56,9 @@ namespace mtm {
     };
     template <class T>
     class Matrix<T>::const_iterator {
-        const Matrix* matrix;
+        const Matrix<T>* matrix;
         int index;
-        const_iterator(const Matrix* matrix, int index);
+        const_iterator(const Matrix<T>* matrix, int index);
         friend class Matrix;
         public:
         const T& operator*() const;
@@ -204,6 +204,7 @@ template <class T>
 const T& mtm::Matrix<T>::operator()(int row, int col) const{
     return data[dims.getCol()*row + col];
 }
+
 template<class T>
 mtm::Matrix<bool>& mtm::Matrix<T>::inverseMatrix() {
     for (int i=0; i<(*this).height(); i++) {
@@ -217,7 +218,6 @@ mtm::Matrix<bool>& mtm::Matrix<T>::inverseMatrix() {
 template <class T>
 std::ostream& mtm::operator<<(std::ostream& os, const mtm::Matrix<T>& matrix) {
     std::string string_matrix;
-
     string_matrix = mtm::printMatrix(os,matrix.begin(),matrix.end(),matrix.width());
     return os<<string_matrix;
 }
