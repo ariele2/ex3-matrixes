@@ -1,4 +1,4 @@
-#ifndef MATRIX_H
+#ifndef MATRIX_H 
 #define MATRIX_H
 #include <string>
 #include <iostream>
@@ -37,6 +37,30 @@ namespace mtm {
         Matrix<bool> operator<(T num) const;
         Matrix<bool> operator<=(T num) const;
         Matrix<bool> operator>=(T num) const;
+        class AccessIllegalElement: public std::exception{
+            public:
+            const char* what() const {
+                return "Mtm matrix error: An attempt to access an illegal element";
+            }
+        };
+        class IllegalInitialization: public std::exception{
+            public:
+            const char* what() const {
+                return "Mtm matrix error: Illegal initialization values";
+            }
+        };
+        template <class T>
+        class DimensionMismatch{
+            Matrix<T> matrix1;
+            Matrix<T> matrix2;
+            public:
+            DimensionMismatch(Matrix<T> matrix1,Matrix<T> matrix2): matrix1(matrix1),matrix2(matrix2) {}
+            const std::string what() const {
+                return "Mtm matrix error: Dimension mismatch:(" + std::to_string(matrix.height()) + "," +
+                       std::to_string(matrix1.width())+ ") (" + std::to_string(matrix2.height()) + 
+                       "," + std::to_string(matrix2.width()) + ")";
+            }
+        };
     };
     template <class T>
     class Matrix<T>::iterator {
@@ -218,7 +242,7 @@ mtm::Matrix<bool>& mtm::Matrix<T>::inverseMatrix() {
 template <class T>
 std::ostream& mtm::operator<<(std::ostream& os, const mtm::Matrix<T>& matrix) {
     std::string string_matrix;
-    string_matrix = mtm::printMatrix(os,matrix.begin(),matrix.end(),matrix.width());
+    string_matrix = mtm::printMatrix(os,matrix.begin(),matrix.end(),static_cast<unsigned int>(matrix.width()));
     return os<<string_matrix;
 }
 
