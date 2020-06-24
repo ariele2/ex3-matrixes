@@ -415,12 +415,12 @@ bool mtm::Matrix<T>::const_iterator::operator!=(const const_iterator& i) const {
 }
 
 template <class T>
-const mtm::Matrix<T>::const_iterator mtm::Matrix<T>::begin() const {
+const typename mtm::Matrix<T>::const_iterator mtm::Matrix<T>::begin() const {
     return const_iterator(this, 0);
 }
 
 template <class T>
-const mtm::Matrix<T>::const_iterator mtm::Matrix<T>::end() const{
+const typename mtm::Matrix<T>::const_iterator mtm::Matrix<T>::end() const{
     return const_iterator(this, this->size());
 }
 
