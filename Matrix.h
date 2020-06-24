@@ -37,30 +37,9 @@ namespace mtm {
         Matrix<bool> operator<(T num) const;
         Matrix<bool> operator<=(T num) const;
         Matrix<bool> operator>=(T num) const;
-        class AccessIllegalElement: public std::exception{
-            public:
-            const char* what() const {
-                return "Mtm matrix error: An attempt to access an illegal element";
-            }
-        };
-        class IllegalInitialization: public std::exception{
-            public:
-            const char* what() const {
-                return "Mtm matrix error: Illegal initialization values";
-            }
-        };
-        template <class T>
-        class DimensionMismatch{
-            Matrix<T> matrix1;
-            Matrix<T> matrix2;
-            public:
-            DimensionMismatch(Matrix<T> matrix1,Matrix<T> matrix2): matrix1(matrix1),matrix2(matrix2) {}
-            const std::string what() const {
-                return "Mtm matrix error: Dimension mismatch:(" + std::to_string(matrix.height()) + "," +
-                       std::to_string(matrix1.width())+ ") (" + std::to_string(matrix2.height()) + 
-                       "," + std::to_string(matrix2.width()) + ")";
-            }
-        };
+        class AccessIllegalElement;
+        class IllegalInitialization;
+        class DimensionMismatch;
     };
     template <class T>
     class Matrix<T>::iterator {
@@ -93,6 +72,29 @@ namespace mtm {
         ~const_iterator() = default;
         const_iterator(const const_iterator&) = default;
         const_iterator& operator=(const const_iterator&) = default;
+    };
+    class AccessIllegalElement: public std::exception{
+        public:
+        const char* what() const {
+            return "Mtm matrix error: An attempt to access an illegal element";
+        }
+    };
+    class IllegalInitialization: public std::exception{
+        public:
+        const char* what() const {
+            return "Mtm matrix error: Illegal initialization values";
+        }
+    };
+    class DimensionMismatch: public std::exception{
+        int matrix1_height, matrix1_width, matrix2_height, matrix2_width;
+        public:
+        DimensionMismatch(int matrix1_height, int matrix1_width, int matrix2_height, int matrix2_width ) {}
+        const char* what() const {
+            std::string what_str = "Mtm matrix error: Dimension mismatch:(" + std::to_string(matrix1_height) + "," +
+                    std::to_string(matrix1_width)+ ") (" + std::to_string(matrix2_height) + 
+                    "," + std::to_string(matrix2_width) + ")";
+            return what_str.c_str();
+        }
     };
     template <class T>
     std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix);
@@ -367,12 +369,12 @@ bool mtm::Matrix<T>::iterator::operator!=(const iterator& i) const {
 }
 
 template <class T>
-mtm::Matrix<T>::iterator mtm::Matrix<T>::begin() {
+typename mtm::Matrix<T>::iterator mtm::Matrix<T>::begin() {
     return iterator(this, 0);
 }
 
 template <class T>
-mtm::Matrix<T>::iterator mtm::Matrix<T>::end() {
+typename mtm::Matrix<T>::iterator mtm::Matrix<T>::end() {
     return iterator(this, this->size());
 }
 
