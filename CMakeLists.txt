@@ -6,5 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(MTM_FLAGS_DEBUG "-std=c++11 -Wall -Werror -pedantic-errors")
 set(MTM_FLAGS_RELEASE "${MTM_FLAGS_DEBUG} -DNDBUG")
 set(CMAKE_C_FLAGS ${MTM_FLAGS_DEBUG})
-add_executable(IntMatrix  IntMatrix.cpp Auxiliaries.cpp test_partA.cpp)
+add_executable(Matrix  Matrix.h Auxiliaries.cpp test_partB.cpp)
+
+
 
