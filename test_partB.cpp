@@ -31,7 +31,7 @@ int main(){
         const mtm::Matrix<int> mat_1 = mtm::Matrix<int>::Diagonal(2,1);
         mtm::Matrix<int> mat_2 = mtm::Matrix<int>::Diagonal(2,-1);
         std::cout<<mtm::any(mat_1)<<" "<<mtm::any(mat_1-mat_2)<<" "<<mtm::all(mat_1+mat_2+1)<<std::endl;
-        std::cout<<(-mat_2)(1,1)<<(-mat_2)(2,2)<<std::endl;
+        std::cout<<(-mat_2)(2,2)<<std::endl;
     } catch(mtm::Matrix<int>::AccessIllegalElement& e){
         std::cout<<e.what()<<std::endl;
     }
