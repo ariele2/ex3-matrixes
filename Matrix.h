@@ -16,7 +16,7 @@ namespace mtm {
         iterator end();
         const const_iterator begin() const;
         const const_iterator end() const;
-        explicit Matrix(Dimensions dims, T value = 0);
+        explicit Matrix(Dimensions dims, T value=T());
         Matrix(const Matrix& matrix);
         ~Matrix();
         Matrix& operator=(const Matrix& matrix);
@@ -87,32 +87,33 @@ namespace mtm {
     template <class T>
     class Matrix<T>::AccessIllegalElement: public std::exception{
         public:
-        const char* what(){
+        const char* what() const noexcept override{
             return "Mtm matrix error: An attempt to access an illegal element";
         }
     };
     template <class T>
     class Matrix<T>::IllegalInitialization: public std::exception{
         public:
-        const char* what(){
+        const char* what() const noexcept override{
             return "Mtm matrix error: Illegal initialization values";
         }
     };
     template <class T>
     class Matrix<T>::DimensionMismatch: public std::exception{
         mtm::Dimensions dims_mat_1, dims_mat_2;
+        std::string error_str;
         public:
         DimensionMismatch(mtm::Dimensions dims_mat_1, mtm::Dimensions dims_mat_2): 
-                            dims_mat_1(dims_mat_1), dims_mat_2(dims_mat_2)  {}
-        const char* what(){
-            std::string what_str = "Mtm matrix error: Dimension mismatch:" + dims_mat_1.toString() + dims_mat_2.toString();
-            return what_str.c_str();
+                            dims_mat_1(dims_mat_1), dims_mat_2(dims_mat_2),
+                            error_str("Mtm matrix error: Dimension mismatch: " + dims_mat_1.toString() + " " + dims_mat_2.toString())  {}
+        const char* what() const noexcept override{
+            return error_str.c_str();
         }
     };
-    template <class U>
-    std::ostream& operator<<(std::ostream& os, const Matrix<U>& matrix) {
+    template <class T>
+    std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix) {
         //std::string string_matrix;
-        return mtm::printMatrix(os,matrix.begin(),matrix.end(),static_cast<unsigned int>(matrix.width()));
+        return mtm::printMatrix(os,matrix.begin(),matrix.end(),(matrix.width()));
         //return os<<string_matrix;
     }
     template <class T>
@@ -149,13 +150,15 @@ namespace mtm {
     template <class T>
     Matrix<T> operator+(const T element, const Matrix<T>& matrix) {
         Matrix<T> sum_matrix(matrix);
-        return (sum_matrix += element);
+        mtm::Dimensions new_dims(matrix.height(),matrix.width());
+        Matrix<T> element_matrix(new_dims,element);
+        return (element_matrix + matrix);
     }
     template <class T>
     bool any(const Matrix<T>& matrix) {
         for (int i=0; i<matrix.height(); i++) {
             for(int j=0; j<matrix.width(); j++) {
-                if (matrix(i,j) != false) {
+                if (matrix(i,j)) {
                     return true;
                 }
             }
@@ -166,7 +169,7 @@ namespace mtm {
     bool all(const Matrix<T>& matrix) {
         for (int i=0; i<matrix.height(); i++) {
             for(int j=0; j<matrix.width(); j++) {
-                if (matrix(i,j) == false) {
+                if (!matrix(i,j)) {
                     return false;
                 }
             }
@@ -396,9 +399,6 @@ T& mtm::Matrix<T>::iterator::operator*() const {
 template <class T>
 typename mtm::Matrix<T>::iterator& mtm::Matrix<T>::iterator::operator++() {
     ++index;
-    if(index >= matrix->size()) {
-        throw typename mtm::Matrix<T>::AccessIllegalElement();
-    }
     return *this;
 }
 
@@ -406,9 +406,6 @@ template <class T>
 typename mtm::Matrix<T>::iterator mtm::Matrix<T>::iterator::operator++(int) {
     iterator result = *this;
     ++*this;
-    if(index >= matrix->size()) {
-        throw typename mtm::Matrix<T>::AccessIllegalElement();
-    }
     return result;
 } 
 
@@ -449,9 +446,6 @@ const T& mtm::Matrix<T>::const_iterator::operator*() const {
 template <class T>
 const typename mtm::Matrix<T>::const_iterator& mtm::Matrix<T>::const_iterator::operator++() {
     ++index;
-    if(index >= matrix->size()) {
-        throw AccessIllegalElement();
-    }
     return *this;
 }
 
@@ -459,9 +453,6 @@ template <class T>
 const typename mtm::Matrix<T>::const_iterator mtm::Matrix<T>::const_iterator::operator++(int) {
     const_iterator result = *this;
     ++*this;
-    if(index >= matrix->size()) {
-        throw AccessIllegalElement();
-    }
     return result;
 } 
 
