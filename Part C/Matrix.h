@@ -16,7 +16,7 @@ namespace mtm {
         iterator end();
         const const_iterator begin() const;
         const const_iterator end() const;
-        explicit Matrix(Dimensions dims, T value=T());
+        explicit Matrix(Dimensions dims, T value = T());
         Matrix(const Matrix& matrix);
         ~Matrix();
         Matrix& operator=(const Matrix& matrix);
@@ -149,8 +149,8 @@ namespace mtm {
     }
     template <class T>
     Matrix<T> operator+(const T element, const Matrix<T>& matrix) {
-        mtm::Dimensions sum_dims(matrix.height(),matrix.width());
-        Matrix<T> element_matrix(sum_dims,element);
+        mtm::Dimensions new_dims(matrix.height(),matrix.width());
+        Matrix<T> element_matrix(new_dims,element);
         return (element_matrix + matrix);
     }
     template <class T>
