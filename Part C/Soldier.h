@@ -7,7 +7,7 @@ namespace mtm {
         public:
         Soldier() = delete;
         Soldier(int health, int ammo, int range, int power);
-        Character* clone() const override;
+        std::shared_ptr<Character> clone() const override;
     };
 }
 

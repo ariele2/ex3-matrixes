@@ -2,8 +2,9 @@
 
 using namespace mtm;
 
-Character* Soldier::clone() const {
-    return new Soldier(*this);
+std::shared_ptr<Character> Soldier::clone() const {
+    std::shared_ptr<Soldier> ptr(new Soldier(*this));
+    return ptr;
 }
 
 Soldier::Soldier(int health, int ammo, int range, int power): Character(health,ammo,range,power) {}

@@ -10,7 +10,7 @@
 namespace mtm {
     class Game {
         int height ,width;
-        Matrix<Character*> board;  
+        Matrix<std::shared_ptr<Character>> board;  
         public:
         Game() = delete;
         Game(int height, int width);
