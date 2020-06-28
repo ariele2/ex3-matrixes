@@ -112,9 +112,7 @@ namespace mtm {
     };
     template <class T>
     std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix) {
-        //std::string string_matrix;
         return mtm::printMatrix(os,matrix.begin(),matrix.end(),(matrix.width()));
-        //return os<<string_matrix;
     }
     template <class T>
     Matrix<T> operator+(const Matrix<T>& matrix1, const Matrix<T>& matrix2) {
@@ -149,9 +147,8 @@ namespace mtm {
     }
     template <class T>
     Matrix<T> operator+(const T element, const Matrix<T>& matrix) {
-        Matrix<T> sum_matrix(matrix);
-        mtm::Dimensions new_dims(matrix.height(),matrix.width());
-        Matrix<T> element_matrix(new_dims,element);
+        mtm::Dimensions sum_dims(matrix.height(),matrix.width());
+        Matrix<T> element_matrix(sum_dims,element);
         return (element_matrix + matrix);
     }
     template <class T>
