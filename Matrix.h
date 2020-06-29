@@ -85,21 +85,21 @@ namespace mtm {
         const_iterator& operator=(const const_iterator&) = default;
     };
     template <class T>
-    class Matrix<T>::AccessIllegalElement: public std::exception{
+    class Matrix<T>::AccessIllegalElement: public mtm::Exception{
         public:
         const char* what() const noexcept override{
             return "Mtm matrix error: An attempt to access an illegal element";
         }
     };
     template <class T>
-    class Matrix<T>::IllegalInitialization: public std::exception{
+    class Matrix<T>::IllegalInitialization: public mtm::Exception{
         public:
         const char* what() const noexcept override{
             return "Mtm matrix error: Illegal initialization values";
         }
     };
     template <class T>
-    class Matrix<T>::DimensionMismatch: public std::exception{
+    class Matrix<T>::DimensionMismatch: public mtm::Exception{
         mtm::Dimensions dims_mat_1, dims_mat_2;
         std::string error_str;
         public:
