@@ -6,6 +6,7 @@
 #include "Medic.h"
 #include "Matrix.h"
 #include "Character.h"
+#include "Exceptions.h"
 #include <memory>
 #include <iostream>
 
@@ -32,16 +33,13 @@ namespace mtm {
         bool isOver(Team* winningTeam=NULL) const;
         class GameException;
     };
-    class GameException : public mtm::Exception {
-        const char* what() const noexcept override;
-    };
     std::ostream& operator<<(std::ostream& os,const Game& game) {
     vector<char> board_vector;
     for (int i=0; i<game.height; i++) {
         for (int j=0; j<game.width; j++) {
             shared_ptr<Character> player(game.board(i,j));
             if (typeid(player).name() == "Soldier"){
-                if (player->get_team() == CPP) {
+                if (player->getTeam() == CPP) {
                     board_vector.push_back('S');
                 }
                 else {
@@ -49,7 +47,7 @@ namespace mtm {
                 }
             }
             if (typeid(player).name() == "Medic"){
-                if (player->get_team() == CPP) {
+                if (player->getTeam() == CPP) {
                     board_vector.push_back('M');
                 }
                 else {
@@ -57,7 +55,7 @@ namespace mtm {
                 }
             }
             if (typeid(player).name() == "Sniper"){
-                if (player->get_team() == CPP) {
+                if (player->getTeam() == CPP) {
                     board_vector.push_back('N');
                 }
                 else {

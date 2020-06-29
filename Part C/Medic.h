@@ -11,7 +11,7 @@ namespace mtm {
         Medic() = delete;
         Medic(int health, int ammo, int range, int power,Team team);
         std::shared_ptr<Character> clone() const override;
-        const int move() const override;
+        const int getMovement() const override;
         void attack(Game& game,const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const override;
         void reload(Game& game,const GridPoint& coordinates) override;
     };
