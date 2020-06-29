@@ -89,7 +89,7 @@ void Game::attack(const GridPoint& src_coordinates, const GridPoint& dst_coordin
     }
     shared_ptr<Character> player(this->board(src_coordinates.row, src_coordinates.col));
     try {
-        player->attack(*this, src_coordinates, dst_coordinates);    
+        player->attack((*this).board, src_coordinates, dst_coordinates);    
     }
     catch (mtm::OutOfRange& e){
         throw;
@@ -113,10 +113,10 @@ void Game::reload(const GridPoint& coordinates) {
         throw typename mtm::CellEmpty();
     }
     shared_ptr<Character> player(this->board(coordinates.row, coordinates.col));
-    player->reload(*this, coordinates);
+    player->reload((*this).board, coordinates);
 }
     
-bool Game::isOver(Team* winningTeam=NULL) const {
+bool Game::isOver(Team* winningTeam) const {
     int found_cpp = 0;
     int found_python = 0;
     for (int i=0; i<this->height; i++) {

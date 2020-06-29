@@ -2,6 +2,7 @@
 #define HW3_Sniper_H
 #include "Character.h"
 
+
 namespace mtm {
     class Sniper : public Character {
         const int movement = 4;
@@ -15,8 +16,9 @@ namespace mtm {
         const int getMovement() const override;
         void updateAttacks();
         int get_attacks() const;
-        void attack(Game& game,const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const override;
-        void reload(Game& game,const GridPoint& coordinates) override;
+        void attack(Matrix<std::shared_ptr<Character>>& game_board,
+                     const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const override;
+        void reload(Matrix<std::shared_ptr<Character>>& game_board,const GridPoint& coordinates) override;
     };
 }
 #endif

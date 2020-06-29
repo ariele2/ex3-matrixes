@@ -23,8 +23,8 @@ int Sniper::get_attacks() const {
     return count_attacks;
 }
 
-void Sniper::attack(Game& game,const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const {
-    shared_ptr<Sniper> attacking_player(game.board(src_coordinates.row, src_coordinates.col));
+void Sniper::attack(Matrix<shared_ptr<Character>>& game_board,const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const {
+    shared_ptr<Sniper> attacking_player(game_board(src_coordinates.row, src_coordinates.col));
     units_t unreachable_area = ceil(static_cast<double>(attacking_player->getRange())/2);
     int attack_distance = GridPoint::distance(src_coordinates, dst_coordinates);
     if(attack_distance < unreachable_area || attack_distance > attacking_player->getRange()) {
@@ -33,7 +33,7 @@ void Sniper::attack(Game& game,const GridPoint& src_coordinates, const GridPoint
     else if (attacking_player->getAmmo() == 0) {
         throw typename mtm::OutOfAmmo();
     }
-    shared_ptr<Character> attacked_player(game.board(src_coordinates.row, src_coordinates.col));
+    shared_ptr<Character> attacked_player(game_board(src_coordinates.row, src_coordinates.col));
     if(attacking_player->getTeam() == attacked_player->getTeam()){
         throw typename mtm::IllegalTarget();
     }
@@ -45,15 +45,15 @@ void Sniper::attack(Game& game,const GridPoint& src_coordinates, const GridPoint
     }
     if(attacked_player->getHealth() == 0) {
         attacked_player = nullptr;
-        game.board(dst_coordinates.row, dst_coordinates.col) = nullptr;
+        game_board(dst_coordinates.row, dst_coordinates.col) = nullptr;
     }
     attacking_player->updateAttacks();
     attacking_player->setAmmo(AMMO_DOWN);
 }
 
-void Sniper::reload(Game& game,const GridPoint& coordinates) {
+void Sniper::reload(Matrix<shared_ptr<Character>>& game_board,const GridPoint& coordinates) {
     //exceptions
-    shared_ptr<Soldier> curr_player(game.board(coordinates.row, coordinates.col));
+    shared_ptr<Sniper> curr_player(game_board(coordinates.row, coordinates.col));
     curr_player->setAmmo(ADD_AMMO);
 }
    

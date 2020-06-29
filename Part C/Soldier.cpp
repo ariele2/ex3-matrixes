@@ -15,8 +15,8 @@ const int Soldier::getMovement() const {
     return movement;
 }
 
-void Soldier::attack(Game& game,const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const{
-    shared_ptr<Soldier> attacking_player(game.board(src_coordinates.row, src_coordinates.col));
+void Soldier::attack(Matrix<shared_ptr<Character>>& game_board,const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const{
+    shared_ptr<Soldier> attacking_player(game_board(src_coordinates.row, src_coordinates.col));
     if (GridPoint::distance(src_coordinates,dst_coordinates) > attacking_player->getRange()) {
         throw typename mtm::OutOfRange();
     }
@@ -27,12 +27,12 @@ void Soldier::attack(Game& game,const GridPoint& src_coordinates, const GridPoin
         throw typename mtm::OutOfAmmo();
     }
     units_t affected_area = ceil(static_cast<double>(attacking_player->getRange())/3);
-    for (int i=0; i<game.height; i++) {
-        for (int j=0; j<game.width; j++) {
+    for (int i=0; i<game_board.height(); i++) {
+        for (int j=0; j<game_board.width(); j++) {
             GridPoint curr_point(i,j);
             int attack_distance = GridPoint::distance(curr_point, dst_coordinates);
             if(attack_distance <= affected_area) {
-                shared_ptr<Character> attacked_player(game.board(curr_point.row, curr_point.col));
+                shared_ptr<Character> attacked_player(game_board(curr_point.row, curr_point.col));
                 if (attacking_player->getTeam() == attacked_player->getTeam()) {
                     break;
                 }
@@ -44,7 +44,7 @@ void Soldier::attack(Game& game,const GridPoint& src_coordinates, const GridPoin
                 }
                 if(attacked_player->getHealth() == 0) {
                     attacked_player = nullptr;
-                    game.board(curr_point.row, curr_point.col) = nullptr;
+                    game_board(curr_point.row, curr_point.col) = nullptr;
                 }
             }
         }
@@ -52,9 +52,8 @@ void Soldier::attack(Game& game,const GridPoint& src_coordinates, const GridPoin
     attacking_player->setAmmo(AMMO_DOWN);
 }
 
-void Soldier::reload(Game& game,const GridPoint& coordinates) {
-    //exceptions
-    shared_ptr<Soldier> curr_player(game.board(coordinates.row, coordinates.col));
+void Soldier::reload(Matrix<shared_ptr<Character>>& game_board,const GridPoint& coordinates) {
+    shared_ptr<Soldier> curr_player(game_board(coordinates.row, coordinates.col));
     curr_player->setAmmo(ADD_AMMO);
 }
 

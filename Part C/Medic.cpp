@@ -15,24 +15,25 @@ const int Medic::getMovement() const {
     return movement;
 }
 
-void Medic::attack(Game& game,const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const {
-    shared_ptr<Medic> attacking_player(game.board(src_coordinates.row, src_coordinates.col));
+void Medic::attack(Matrix<shared_ptr<Character>>& game_board, 
+                    const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const {
+    shared_ptr<Medic> attacking_player(game_board(src_coordinates.row, src_coordinates.col));
     if (GridPoint::distance(src_coordinates,dst_coordinates) > attacking_player->getRange() ) {
         throw typename mtm::OutOfRange();
     }
     else if (attacking_player->getAmmo() == 0) {
         throw typename mtm::OutOfAmmo();
     }
-    else if (src_coordinates == dst_coordinates || (game.board(dst_coordinates.row,dst_coordinates.col) == nullptr)){
+    else if (src_coordinates == dst_coordinates || (game_board(dst_coordinates.row,dst_coordinates.col) == nullptr)){
         throw typename mtm::IllegalTarget();
     }
-    shared_ptr<Medic> attacking_player(game.board(src_coordinates.row, src_coordinates.col));
-    shared_ptr<Character> attacked_player(game.board(dst_coordinates.row, dst_coordinates.col));
+    shared_ptr<Medic> attacking_player(game_board(src_coordinates.row, src_coordinates.col));
+    shared_ptr<Character> attacked_player(game_board(dst_coordinates.row, dst_coordinates.col));
     if (attacking_player->getTeam() != attacked_player->getTeam()) {
         attacked_player->setHealth(-attacking_player->getPower());
         if(attacked_player->getHealth() == 0) {
             attacked_player = nullptr;
-            game.board(dst_coordinates.row, dst_coordinates.col) = nullptr;
+            game_board(dst_coordinates.row, dst_coordinates.col) = nullptr;
         }   
     }
     else {
@@ -42,8 +43,7 @@ void Medic::attack(Game& game,const GridPoint& src_coordinates, const GridPoint&
     attacking_player->setAmmo(AMMO_DOWN);
 }
 
-void Medic::reload(Game& game,const GridPoint& coordinates) {
-    //exceptions
-    shared_ptr<Medic> curr_player(game.board(coordinates.row, coordinates.col));
+void Medic::reload(Matrix<shared_ptr<Character>>& game_board,const GridPoint& coordinates) {
+    shared_ptr<Medic> curr_player(game_board(coordinates.row, coordinates.col));
     curr_player->setAmmo(ADD_AMMO);
 }

@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\partC.dir/objects.a
+C:\TDM-GCC-64\bin\ar.exe cr CMakeFiles\partC.dir/objects.a @CMakeFiles\partC.dir\objects1.rsp
+C:\TDM-GCC-64\bin\g++.exe -g   -Wl,--whole-archive CMakeFiles\partC.dir/objects.a -Wl,--no-whole-archive  -o partC.exe -Wl,--out-implib,libpartC.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\partC.dir\linklibs.rsp

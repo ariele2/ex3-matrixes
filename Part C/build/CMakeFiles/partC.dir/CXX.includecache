@@ -1,0 +1,116 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Auxiliaries.h
+iostream
+-
+string
+-
+cmath
+-
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Character.cpp
+Character.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Character.h
+Auxiliaries.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Auxiliaries.h
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Character.h
+string
+-
+iostream
+-
+memory
+-
+Auxiliaries.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Auxiliaries.h
+Game.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Game.h
+vector
+-
+math.h
+-
+Matrix.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Matrix.h
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Exceptions.h
+Auxiliaries.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Auxiliaries.h
+iostream
+-
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Game.cpp
+Game.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Game.h
+vector
+-
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Game.h
+Auxiliaries.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Auxiliaries.h
+Soldier.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Soldier.h
+Sniper.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Sniper.h
+Medic.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Medic.h
+Matrix.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Matrix.h
+Character.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Character.h
+Exceptions.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Exceptions.h
+vector
+-
+memory
+-
+iostream
+-
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Matrix.h
+string
+-
+iostream
+-
+Auxiliaries.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Auxiliaries.h
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Medic.cpp
+Medic.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Medic.h
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Medic.h
+Character.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Character.h
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Sniper.cpp
+Sniper.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Sniper.h
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Sniper.h
+Character.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Character.h
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Soldier.cpp
+Soldier.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Soldier.h
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Soldier.h
+Character.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Character.h
+Auxiliaries.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Auxiliaries.h
+
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/test_partC.cpp
+iostream
+-
+cassert
+-
+Game.h
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Game.h
+

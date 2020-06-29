@@ -7,6 +7,7 @@
 #include "Matrix.h"
 #include "Character.h"
 #include "Exceptions.h"
+#include <vector>
 #include <memory>
 #include <iostream>
 
@@ -17,6 +18,7 @@ namespace mtm {
         friend class Soldier;
         friend class Medic;
         friend class Sniper;
+        friend class Character;
         public:
         Game() = delete;
         Game(int height, int width);
@@ -31,13 +33,12 @@ namespace mtm {
         void reload(const GridPoint& coordinates);
         friend std::ostream& operator<<(std::ostream& os,const Game& game);
         bool isOver(Team* winningTeam=NULL) const;
-        class GameException;
     };
     std::ostream& operator<<(std::ostream& os,const Game& game) {
-    vector<char> board_vector;
+    std::vector<char> board_vector;
     for (int i=0; i<game.height; i++) {
         for (int j=0; j<game.width; j++) {
-            shared_ptr<Character> player(game.board(i,j));
+            std::shared_ptr<Character> player(game.board(i,j));
             if (typeid(player).name() == "Soldier"){
                 if (player->getTeam() == CPP) {
                     board_vector.push_back('S');

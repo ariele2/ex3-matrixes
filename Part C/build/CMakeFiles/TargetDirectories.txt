@@ -1,0 +1,3 @@
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/build/CMakeFiles/rebuild_cache.dir
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/build/CMakeFiles/partC.dir
+C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/build/CMakeFiles/edit_cache.dir

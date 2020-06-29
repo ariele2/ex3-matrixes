@@ -1,0 +1,42 @@
+[
+{
+  "directory": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/build",
+  "command": "C:\\TDM-GCC-64\\bin\\g++.exe    -g   -std=gnu++11 -o CMakeFiles\\partC.dir\\Auxiliaries.cpp.obj -c \"C:\\Users\\User\\OneDrive - Technion\\simester b\\mtm\\exercisses\\3\\ex3\\Part C\\Auxiliaries.cpp\"",
+  "file": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Auxiliaries.cpp"
+},
+{
+  "directory": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/build",
+  "command": "C:\\TDM-GCC-64\\bin\\g++.exe    -g   -std=gnu++11 -o CMakeFiles\\partC.dir\\test_partC.cpp.obj -c \"C:\\Users\\User\\OneDrive - Technion\\simester b\\mtm\\exercisses\\3\\ex3\\Part C\\test_partC.cpp\"",
+  "file": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/test_partC.cpp"
+},
+{
+  "directory": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/build",
+  "command": "C:\\TDM-GCC-64\\bin\\g++.exe    -g   -std=gnu++11 -o CMakeFiles\\partC.dir\\Character.cpp.obj -c \"C:\\Users\\User\\OneDrive - Technion\\simester b\\mtm\\exercisses\\3\\ex3\\Part C\\Character.cpp\"",
+  "file": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Character.cpp"
+},
+{
+  "directory": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/build",
+  "command": "C:\\TDM-GCC-64\\bin\\g++.exe    -g   -std=gnu++11 -o CMakeFiles\\partC.dir\\Exception.cpp.obj -c \"C:\\Users\\User\\OneDrive - Technion\\simester b\\mtm\\exercisses\\3\\ex3\\Part C\\Exception.cpp\"",
+  "file": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Exception.cpp"
+},
+{
+  "directory": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/build",
+  "command": "C:\\TDM-GCC-64\\bin\\g++.exe    -g   -std=gnu++11 -o CMakeFiles\\partC.dir\\Game.cpp.obj -c \"C:\\Users\\User\\OneDrive - Technion\\simester b\\mtm\\exercisses\\3\\ex3\\Part C\\Game.cpp\"",
+  "file": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Game.cpp"
+},
+{
+  "directory": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/build",
+  "command": "C:\\TDM-GCC-64\\bin\\g++.exe    -g   -std=gnu++11 -o CMakeFiles\\partC.dir\\Medic.cpp.obj -c \"C:\\Users\\User\\OneDrive - Technion\\simester b\\mtm\\exercisses\\3\\ex3\\Part C\\Medic.cpp\"",
+  "file": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Medic.cpp"
+},
+{
+  "directory": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/build",
+  "command": "C:\\TDM-GCC-64\\bin\\g++.exe    -g   -std=gnu++11 -o CMakeFiles\\partC.dir\\Sniper.cpp.obj -c \"C:\\Users\\User\\OneDrive - Technion\\simester b\\mtm\\exercisses\\3\\ex3\\Part C\\Sniper.cpp\"",
+  "file": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Sniper.cpp"
+},
+{
+  "directory": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/build",
+  "command": "C:\\TDM-GCC-64\\bin\\g++.exe    -g   -std=gnu++11 -o CMakeFiles\\partC.dir\\Soldier.cpp.obj -c \"C:\\Users\\User\\OneDrive - Technion\\simester b\\mtm\\exercisses\\3\\ex3\\Part C\\Soldier.cpp\"",
+  "file": "C:/Users/User/OneDrive - Technion/simester b/mtm/exercisses/3/ex3/Part C/Soldier.cpp"
+}
+]
