@@ -24,11 +24,11 @@ std::string mtm::Dimensions::toString() const {
 }
 
 bool mtm::Dimensions::operator==(const Dimensions& other) const {
-    return (row==other.row) and (col==other.col);
+    return (row==other.row) && (col==other.col);
 }
 
 bool mtm::Dimensions::operator!=(const Dimensions& other) const {
-    return not(*this==other);
+    return !(*this==other);
 }
 
 int mtm::Dimensions::getRow() const {

@@ -16,7 +16,7 @@ namespace mtm {
         iterator end();
         const const_iterator begin() const;
         const const_iterator end() const;
-        explicit Matrix(Dimensions dims, T value = T());
+        explicit Matrix(Dimensions dims, T value=T());
         Matrix(const Matrix& matrix);
         ~Matrix();
         Matrix& operator=(const Matrix& matrix);
@@ -85,21 +85,21 @@ namespace mtm {
         const_iterator& operator=(const const_iterator&) = default;
     };
     template <class T>
-    class Matrix<T>::AccessIllegalElement: public std::exception{
+    class Matrix<T>::AccessIllegalElement: public mtm::Exception{
         public:
         const char* what() const noexcept override{
             return "Mtm matrix error: An attempt to access an illegal element";
         }
     };
     template <class T>
-    class Matrix<T>::IllegalInitialization: public std::exception{
+    class Matrix<T>::IllegalInitialization: public mtm::Exception{
         public:
         const char* what() const noexcept override{
             return "Mtm matrix error: Illegal initialization values";
         }
     };
     template <class T>
-    class Matrix<T>::DimensionMismatch: public std::exception{
+    class Matrix<T>::DimensionMismatch: public mtm::Exception{
         mtm::Dimensions dims_mat_1, dims_mat_2;
         std::string error_str;
         public:
@@ -112,9 +112,7 @@ namespace mtm {
     };
     template <class T>
     std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix) {
-        //std::string string_matrix;
         return mtm::printMatrix(os,matrix.begin(),matrix.end(),(matrix.width()));
-        //return os<<string_matrix;
     }
     template <class T>
     Matrix<T> operator+(const Matrix<T>& matrix1, const Matrix<T>& matrix2) {
@@ -149,8 +147,8 @@ namespace mtm {
     }
     template <class T>
     Matrix<T> operator+(const T element, const Matrix<T>& matrix) {
-        mtm::Dimensions new_dims(matrix.height(),matrix.width());
-        Matrix<T> element_matrix(new_dims,element);
+        mtm::Dimensions sum_dims(matrix.height(),matrix.width());
+        Matrix<T> element_matrix(sum_dims,element);
         return (element_matrix + matrix);
     }
     template <class T>
