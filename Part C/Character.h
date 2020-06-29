@@ -4,7 +4,6 @@
 #include <iostream>
 #include <memory>
 #include "Auxiliaries.h"
-#include "Game.h"
 #include <vector>
 #include <math.h>
 #include "Matrix.h"
@@ -19,7 +18,7 @@ namespace mtm {
         Character() = delete;
         Character(units_t health,units_t ammo,units_t range,units_t power,Team team);
         virtual std::shared_ptr<Character> clone() const = 0;
-        virtual ~Character();
+        virtual ~Character() = default;
         const units_t getHealth();
         const units_t getAmmo();
         const units_t getRange();
@@ -28,6 +27,12 @@ namespace mtm {
         void setHealth(int health_change);
         void setAmmo(int ammo_change);
         virtual const int getMovement() const = 0;
+        virtual int getAttacks() const{
+            return 0;
+        }
+        virtual void updateAttacks(){
+            return;
+        }
         virtual void attack(mtm::Matrix<std::shared_ptr<Character>>& game_board, 
                             const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const = 0;
         virtual void reload(mtm::Matrix<std::shared_ptr<Character>>& game_board, const GridPoint& coordinates) = 0;

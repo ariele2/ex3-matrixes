@@ -19,12 +19,12 @@ void Sniper::updateAttacks(){
     count_attacks++;
 }
 
-int Sniper::get_attacks() const {
+int Sniper::getAttacks() const {
     return count_attacks;
 }
 
 void Sniper::attack(Matrix<shared_ptr<Character>>& game_board,const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const {
-    shared_ptr<Sniper> attacking_player(game_board(src_coordinates.row, src_coordinates.col));
+    shared_ptr<Character> attacking_player = game_board(src_coordinates.row, src_coordinates.col);
     units_t unreachable_area = ceil(static_cast<double>(attacking_player->getRange())/2);
     int attack_distance = GridPoint::distance(src_coordinates, dst_coordinates);
     if(attack_distance < unreachable_area || attack_distance > attacking_player->getRange()) {
@@ -37,7 +37,7 @@ void Sniper::attack(Matrix<shared_ptr<Character>>& game_board,const GridPoint& s
     if(attacking_player->getTeam() == attacked_player->getTeam()){
         throw typename mtm::IllegalTarget();
     }
-    if (attacking_player->get_attacks() % DOUBLE_ATTACK_TIME == 0) {
+    if (attacking_player->getAttacks() % DOUBLE_ATTACK_TIME == 0) {
         attacked_player->setHealth(-2*attacking_player->getPower());
     }
     else {
@@ -52,8 +52,7 @@ void Sniper::attack(Matrix<shared_ptr<Character>>& game_board,const GridPoint& s
 }
 
 void Sniper::reload(Matrix<shared_ptr<Character>>& game_board,const GridPoint& coordinates) {
-    //exceptions
-    shared_ptr<Sniper> curr_player(game_board(coordinates.row, coordinates.col));
+    shared_ptr<Character> curr_player = game_board(coordinates.row, coordinates.col);
     curr_player->setAmmo(ADD_AMMO);
 }
    

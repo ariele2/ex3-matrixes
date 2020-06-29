@@ -17,7 +17,7 @@ const int Medic::getMovement() const {
 
 void Medic::attack(Matrix<shared_ptr<Character>>& game_board, 
                     const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const {
-    shared_ptr<Medic> attacking_player(game_board(src_coordinates.row, src_coordinates.col));
+    shared_ptr<Character> attacking_player = game_board(src_coordinates.row, src_coordinates.col);
     if (GridPoint::distance(src_coordinates,dst_coordinates) > attacking_player->getRange() ) {
         throw typename mtm::OutOfRange();
     }
@@ -27,8 +27,7 @@ void Medic::attack(Matrix<shared_ptr<Character>>& game_board,
     else if (src_coordinates == dst_coordinates || (game_board(dst_coordinates.row,dst_coordinates.col) == nullptr)){
         throw typename mtm::IllegalTarget();
     }
-    shared_ptr<Medic> attacking_player(game_board(src_coordinates.row, src_coordinates.col));
-    shared_ptr<Character> attacked_player(game_board(dst_coordinates.row, dst_coordinates.col));
+    shared_ptr<Character> attacked_player = game_board(dst_coordinates.row, dst_coordinates.col);
     if (attacking_player->getTeam() != attacked_player->getTeam()) {
         attacked_player->setHealth(-attacking_player->getPower());
         if(attacked_player->getHealth() == 0) {
@@ -44,6 +43,6 @@ void Medic::attack(Matrix<shared_ptr<Character>>& game_board,
 }
 
 void Medic::reload(Matrix<shared_ptr<Character>>& game_board,const GridPoint& coordinates) {
-    shared_ptr<Medic> curr_player(game_board(coordinates.row, coordinates.col));
+    shared_ptr<Character> curr_player = game_board(coordinates.row, coordinates.col);
     curr_player->setAmmo(ADD_AMMO);
 }

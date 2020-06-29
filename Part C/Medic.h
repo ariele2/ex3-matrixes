@@ -1,11 +1,13 @@
 #ifndef HW3_Medic_H
 #define HW3_Medic_H
 #include "Character.h"
+#include "Auxiliaries.h"
+#include "Exceptions.h"
 
 
 
 namespace mtm {
-    class Medic : public Character {
+    class Medic : public mtm::Character {
         const int movement = 5;
         const int ADD_AMMO = 5;
         public:

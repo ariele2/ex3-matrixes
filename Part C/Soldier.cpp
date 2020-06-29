@@ -16,7 +16,7 @@ const int Soldier::getMovement() const {
 }
 
 void Soldier::attack(Matrix<shared_ptr<Character>>& game_board,const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const{
-    shared_ptr<Soldier> attacking_player(game_board(src_coordinates.row, src_coordinates.col));
+    shared_ptr<Character> attacking_player = game_board(src_coordinates.row, src_coordinates.col);
     if (GridPoint::distance(src_coordinates,dst_coordinates) > attacking_player->getRange()) {
         throw typename mtm::OutOfRange();
     }
@@ -32,7 +32,7 @@ void Soldier::attack(Matrix<shared_ptr<Character>>& game_board,const GridPoint& 
             GridPoint curr_point(i,j);
             int attack_distance = GridPoint::distance(curr_point, dst_coordinates);
             if(attack_distance <= affected_area) {
-                shared_ptr<Character> attacked_player(game_board(curr_point.row, curr_point.col));
+                shared_ptr<Character> attacked_player = game_board(curr_point.row, curr_point.col);
                 if (attacking_player->getTeam() == attacked_player->getTeam()) {
                     break;
                 }
@@ -53,7 +53,7 @@ void Soldier::attack(Matrix<shared_ptr<Character>>& game_board,const GridPoint& 
 }
 
 void Soldier::reload(Matrix<shared_ptr<Character>>& game_board,const GridPoint& coordinates) {
-    shared_ptr<Soldier> curr_player(game_board(coordinates.row, coordinates.col));
+    shared_ptr<Character> curr_player = game_board(coordinates.row, coordinates.col);
     curr_player->setAmmo(ADD_AMMO);
 }
 

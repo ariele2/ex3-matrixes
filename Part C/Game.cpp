@@ -44,8 +44,8 @@ void Game::addCharacter(const GridPoint& coordinates, std::shared_ptr<Character>
     (*this).board(coordinates.row,coordinates.col) = character;
 }
    
-std::shared_ptr<mtm::Character> makeCharacter(CharacterType type, Team team,
-                                        units_t health, units_t ammo, units_t range, units_t power) {
+std::shared_ptr<mtm::Character> Game::makeCharacter(CharacterType type, Team team,
+                                        units_t health, units_t ammo, units_t range, units_t power){
     if (health <=0 || range < 0 || power < 0 || ammo < 0) {
         throw typename mtm::IllegalArgument();
     }
