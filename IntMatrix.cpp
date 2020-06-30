@@ -124,8 +124,9 @@ mtm::IntMatrix mtm::operator+(const mtm::IntMatrix& matrix, const int num) {
 }
 
 mtm::IntMatrix mtm::operator+(const int num, const mtm::IntMatrix& matrix) {
-    IntMatrix sum_matrix(matrix);
-    return (sum_matrix += num);
+    mtm::Dimensions sum_dims(matrix.height(),matrix.width());
+    IntMatrix num_matrix(sum_dims, num);
+    return (num_matrix + matrix);
 }
 
 std::ostream& mtm::operator<<(std::ostream& os, const mtm::IntMatrix& matrix) {
