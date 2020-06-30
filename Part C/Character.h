@@ -13,19 +13,21 @@ namespace mtm {
         protected:
         units_t health, ammo, range, power;
         Team team;
+        CharacterType type;
         const int AMMO_DOWN = -1;
         public:
         Character() = delete;
-        Character(units_t health,units_t ammo,units_t range,units_t power,Team team);
+        Character(units_t health,units_t ammo,units_t range,units_t power,Team team,CharacterType type);
         virtual std::shared_ptr<Character> clone() const = 0;
         virtual ~Character() = default;
-        const units_t getHealth();
-        const units_t getAmmo();
-        const units_t getRange();
-        const units_t getPower();
-        const Team getTeam();
-        void setHealth(int health_change);
-        void setAmmo(int ammo_change);
+        virtual const units_t getHealth() = 0;
+        virtual const units_t getAmmo() = 0;
+        virtual const units_t getRange() = 0;
+        virtual const units_t getPower()= 0;
+        virtual const Team getTeam() = 0;
+        virtual const CharacterType getType() = 0;
+        virtual void setHealth(int health_change) = 0;
+        virtual void setAmmo(int ammo_change) = 0;
         virtual const int getMovement() const = 0;
         virtual int getAttacks() const{
             return 0;

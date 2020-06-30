@@ -8,14 +8,14 @@ shared_ptr<Character> Sniper::clone() const {
     return ptr;
 }
 
-Sniper::Sniper(int health, int ammo, int range, int power,Team team): 
-    Character(health,ammo,range,power,team) {}
+Sniper::Sniper(int health, int ammo, int range, int power,Team team,CharacterType type): 
+    Character(health,ammo,range,power,team,type) {}
 
 const int Sniper::getMovement() const{
     return movement;
 }
 
-void Sniper::updateAttacks(){
+void Sniper::updateAttacks() {
     count_attacks++;
 }
 
@@ -33,7 +33,7 @@ void Sniper::attack(Matrix<shared_ptr<Character>>& game_board,const GridPoint& s
     else if (attacking_player->getAmmo() == 0) {
         throw typename mtm::OutOfAmmo();
     }
-    shared_ptr<Character> attacked_player(game_board(src_coordinates.row, src_coordinates.col));
+    shared_ptr<Character> attacked_player(game_board(dst_coordinates.row, dst_coordinates.col));
     if(attacking_player->getTeam() == attacked_player->getTeam()){
         throw typename mtm::IllegalTarget();
     }
@@ -56,3 +56,39 @@ void Sniper::reload(Matrix<shared_ptr<Character>>& game_board,const GridPoint& c
     curr_player->setAmmo(ADD_AMMO);
 }
    
+const units_t Sniper::getHealth(){
+    return this->health;
+}
+
+const units_t Sniper::getAmmo(){
+    return ammo;
+}
+
+const units_t Sniper::getRange(){
+    return range;
+}
+
+const units_t Sniper::getPower(){
+    return power;
+}
+
+const Team Sniper::getTeam(){
+    return team;
+}
+
+const CharacterType Sniper::getType(){
+    return type;
+}
+
+void Sniper::setHealth(int health_change) {
+    this->health = health + health_change;
+    if(health < 0){
+        health = 0;
+    }
+}
+void Sniper::setAmmo(int ammo_change) {
+    this->ammo = ammo + ammo_change;
+    if (ammo < 0) {
+        ammo = 0;
+    }
+}

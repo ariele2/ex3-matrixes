@@ -8,8 +8,8 @@ shared_ptr<Character> Soldier::clone() const {
     return ptr;
 }
 
-Soldier::Soldier(units_t health, units_t ammo, units_t range, units_t power, Team team): 
-    Character(health,ammo,range,power,team) {}
+Soldier::Soldier(units_t health, units_t ammo, units_t range, units_t power, Team team,CharacterType type): 
+    Character(health,ammo,range,power,team,type) {}
 
 const int Soldier::getMovement() const {
     return movement;
@@ -33,14 +33,14 @@ void Soldier::attack(Matrix<shared_ptr<Character>>& game_board,const GridPoint& 
             int attack_distance = GridPoint::distance(curr_point, dst_coordinates);
             if(attack_distance <= affected_area) {
                 shared_ptr<Character> attacked_player = game_board(curr_point.row, curr_point.col);
-                if (attacking_player->getTeam() == attacked_player->getTeam()) {
-                    break;
+                if (!attacked_player || attacking_player->getTeam() == attacked_player->getTeam()) {
+                    continue;
                 }
                 else if (curr_point == dst_coordinates) {
                     attacked_player->setHealth(-(attacking_player->getPower()));
                 }
                 else {
-                    attacked_player->setHealth(-((attacking_player->getPower()/2)));
+                    attacked_player->setHealth(-ceil(static_cast<double>((attacking_player->getPower()))/2));
                 }
                 if(attacked_player->getHealth() == 0) {
                     attacked_player = nullptr;
@@ -57,5 +57,39 @@ void Soldier::reload(Matrix<shared_ptr<Character>>& game_board,const GridPoint& 
     curr_player->setAmmo(ADD_AMMO);
 }
 
+const units_t Soldier::getHealth(){
+    return health;
+}
 
-         
+const units_t Soldier::getAmmo(){
+    return ammo;
+}
+
+const units_t Soldier::getRange(){
+    return range;
+}
+
+const units_t Soldier::getPower(){
+    return power;
+}
+
+const Team Soldier::getTeam(){
+    return team;
+}
+
+const CharacterType Soldier::getType(){
+    return type;
+}
+
+void Soldier::setHealth(int health_change) {
+    this->health = health + health_change;
+    if(health < 0){
+        health = 0;
+    }
+}
+void Soldier::setAmmo(int ammo_change) {
+    this->ammo = ammo + ammo_change;
+    if (ammo < 0) {
+        ammo = 0;
+    }
+}

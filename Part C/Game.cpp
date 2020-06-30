@@ -9,17 +9,19 @@ using namespace std;
 
 Game::Game(int height, int width): height(height>0?height:throw typename mtm::IllegalArgument()),
                                    width(width>0?width:throw typename mtm::IllegalArgument()),
-                                   board(Matrix<std::shared_ptr<Character>>(Dimensions(height,width))){
-    Dimensions dims(height,width);
-    Matrix<shared_ptr<Character>> board(dims);
-}
+                                   board(Matrix<std::shared_ptr<Character>>(Dimensions(height,width))){}
 
 Game::Game(const Game& other): height(other.height),width(other.width), board(other.board) {
     Dimensions dims(other.height,other.width);
     for (int i=0; i<(*this).board.height(); i++) {
         for (int j=0 ;j<(*this).board.width(); j++) {
-            shared_ptr<Character> new_ptr(other.board(i,j)->clone());
-            (*this).board(i,j) = new_ptr;
+            if (!other.board(i,j)) {
+                (*this).board(i,j) = nullptr;
+            }
+            else { 
+                shared_ptr<Character> new_ptr(other.board(i,j)->clone());
+                (*this).board(i,j) = new_ptr;
+            }
         }
     }
 }
@@ -35,7 +37,8 @@ Game& Game::operator=(const Game& other) {
 }
 
 void Game::addCharacter(const GridPoint& coordinates, std::shared_ptr<Character> character) {
-    if(coordinates.row >= (*this).height || coordinates.col >= (*this).width){
+    if(coordinates.row >= (*this).height || coordinates.col >= (*this).width
+                     || coordinates.row < 0 || coordinates.col < 0){
         throw typename mtm::IllegalCell();
     }
     if((*this).board(coordinates.row,coordinates.col) != nullptr){
@@ -50,19 +53,20 @@ std::shared_ptr<mtm::Character> Game::makeCharacter(CharacterType type, Team tea
         throw typename mtm::IllegalArgument();
     }
     if (type == SOLDIER) {
-        return shared_ptr<mtm::Character>(new Soldier(health, ammo, range, power, team));
+        return shared_ptr<mtm::Character>(new Soldier(health, ammo, range, power, team,type));
     }
     else if (type == MEDIC) {
-       return shared_ptr<mtm::Character>(new Medic(health, ammo, range, power,team));
+       return shared_ptr<mtm::Character>(new Medic(health, ammo, range, power,team,type));
     }
     else {
-        return shared_ptr<mtm::Character>(new Sniper(health, ammo, range, power,team));
+        return shared_ptr<mtm::Character>(new Sniper(health, ammo, range, power,team,type));
     }
 }      
 
 void Game::move(const GridPoint& src_coordinates, const GridPoint& dst_coordinates) {
     if(src_coordinates.row >= (*this).height || src_coordinates.col >= (*this).width || 
-        dst_coordinates.row >= (*this).height || dst_coordinates.col >= (*this).width ){
+        dst_coordinates.row >= (*this).height || dst_coordinates.col >= (*this).width ||
+        src_coordinates.row < 0 || src_coordinates.col < 0 || dst_coordinates.row<0 || dst_coordinates.col<0){
         throw typename mtm::IllegalCell();
     }
     if((*this).board(src_coordinates.row,src_coordinates.col) == nullptr){
@@ -77,11 +81,14 @@ void Game::move(const GridPoint& src_coordinates, const GridPoint& dst_coordinat
         throw typename mtm::CellOccupied();
     }
     addCharacter(dst_coordinates, player);
+    (*this).board(src_coordinates.row,src_coordinates.col) = nullptr;
+
 }
 
 void Game::attack(const GridPoint& src_coordinates, const GridPoint& dst_coordinates) {
     if(src_coordinates.row >= (*this).height || src_coordinates.col >= (*this).width || 
-        dst_coordinates.row >= (*this).height || dst_coordinates.col >= (*this).width ){
+        dst_coordinates.row >= (*this).height || dst_coordinates.col >= (*this).width || 
+         src_coordinates.row < 0 || src_coordinates.col < 0 || dst_coordinates.row<0 || dst_coordinates.col<0){
         throw typename mtm::IllegalCell();
     }
     if((*this).board(src_coordinates.row,src_coordinates.col) == nullptr){
@@ -106,7 +113,8 @@ void Game::attack(const GridPoint& src_coordinates, const GridPoint& dst_coordin
 }
 
 void Game::reload(const GridPoint& coordinates) {
-    if(coordinates.row >= (*this).height || coordinates.col >= (*this).width){
+    if(coordinates.row >= (*this).height || coordinates.col >= (*this).width
+                     || coordinates.row < 0 || coordinates.col < 0){
         throw typename mtm::IllegalCell();
     }
     if((*this).board(coordinates.row,coordinates.col) == nullptr){
@@ -139,10 +147,10 @@ bool Game::isOver(Team* winningTeam) const {
     if (found_cpp == 0 && found_python == 0) { //no players on board at all
         return false;
     }
-    else if (found_cpp > 0 && !winningTeam) {
+    else if (found_cpp > 0) {
         *winningTeam = CPP;
     }
-    else if (!winningTeam) {
+    else {
         *winningTeam = PYTHON;
     }
     return true;

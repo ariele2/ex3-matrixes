@@ -32,37 +32,37 @@ namespace mtm {
             std::vector<char> board_vector;
             for (int i=0; i<game.height; i++) {
                 for (int j=0; j<game.width; j++) {
-                    std::shared_ptr<Character> player(game.board(i,j));
-                    if (typeid(player) == typeid(Soldier)){
-                        if (player->getTeam() == CPP) {
-                            board_vector.push_back('S');
+                    std::shared_ptr<Character> player = game.board(i,j);
+                    if(player == nullptr){
+                        board_vector.push_back(' ');
+                    }
+                    else if (player->getType() == SOLDIER) {
+                            if (player->getTeam() == CPP) {
+                                board_vector.push_back('S');
+                            }
+                            else {
+                                board_vector.push_back('s');
+                            }
                         }
-                        else {
-                            board_vector.push_back('s');
+                    else if (player->getType() == MEDIC) { 
+                            if (player->getTeam() == CPP) {
+                                board_vector.push_back('M');
+                            }
+                            else {
+                                board_vector.push_back('m');
+                            }
+                        }  
+                    else if (player->getType() == SNIPER){
+                            if (player->getTeam() == CPP) {
+                                board_vector.push_back('N');
+                            }
+                            else {
+                                board_vector.push_back('n');
+                            }
+                        }
                     }
                 }
-                if (typeid(player) == typeid(Medic)){
-                    if (player->getTeam() == CPP) {
-                        board_vector.push_back('M');
-                    }
-                    else {
-                        board_vector.push_back('m');
-                    }
-                }
-                if (typeid(player) == typeid(Sniper)){
-                    if (player->getTeam() == CPP) {
-                        board_vector.push_back('N');
-                    }
-                    else {
-                        board_vector.push_back('n');
-                    }
-                }
-                else {
-                    board_vector.push_back(' ');
-                }
-            }
-        }
-        return printGameBoard(os,board_vector.data(),board_vector.data() + board_vector.size(),game.width);
+            return printGameBoard(os,board_vector.data(),board_vector.data() + board_vector.size(),game.width);
         }
     };
 }
