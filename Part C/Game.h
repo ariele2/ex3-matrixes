@@ -33,7 +33,7 @@ namespace mtm {
             for (int i=0; i<game.height; i++) {
                 for (int j=0; j<game.width; j++) {
                     std::shared_ptr<Character> player(game.board(i,j));
-                    if (typeid(player).name() == "Soldier"){
+                    if (typeid(player) == typeid(Soldier)){
                         if (player->getTeam() == CPP) {
                             board_vector.push_back('S');
                         }
@@ -41,7 +41,7 @@ namespace mtm {
                             board_vector.push_back('s');
                     }
                 }
-                if (typeid(player).name() == "Medic"){
+                if (typeid(player) == typeid(Medic)){
                     if (player->getTeam() == CPP) {
                         board_vector.push_back('M');
                     }
@@ -49,7 +49,7 @@ namespace mtm {
                         board_vector.push_back('m');
                     }
                 }
-                if (typeid(player).name() == "Sniper"){
+                if (typeid(player) == typeid(Sniper)){
                     if (player->getTeam() == CPP) {
                         board_vector.push_back('N');
                     }

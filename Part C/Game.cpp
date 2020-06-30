@@ -9,7 +9,7 @@ using namespace std;
 
 Game::Game(int height, int width): height(height>0?height:throw typename mtm::IllegalArgument()),
                                    width(width>0?width:throw typename mtm::IllegalArgument()),
-                                   board(board){
+                                   board(Matrix<std::shared_ptr<Character>>(Dimensions(height,width))){
     Dimensions dims(height,width);
     Matrix<shared_ptr<Character>> board(dims);
 }
