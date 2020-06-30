@@ -5,7 +5,7 @@
 using namespace mtm;
 
 const char* IllegalArgument::what() const noexcept {
-    return "A game realted error has occured: IllegalArgument";
+    return "A game related error has occurred: IllegalArgument";
 }
 
 const char* IllegalCell::what() const noexcept{

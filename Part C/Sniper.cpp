@@ -34,7 +34,7 @@ void Sniper::attack(Matrix<shared_ptr<Character>>& game_board,const GridPoint& s
         throw typename mtm::OutOfAmmo();
     }
     shared_ptr<Character> attacked_player(game_board(dst_coordinates.row, dst_coordinates.col));
-    if(attacking_player->getTeam() == attacked_player->getTeam()){
+    if(!attacked_player || attacking_player->getTeam() == attacked_player->getTeam()){
         throw typename mtm::IllegalTarget();
     }
     if (attacking_player->getAttacks() % DOUBLE_ATTACK_TIME == 0) {

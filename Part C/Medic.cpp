@@ -30,6 +30,7 @@ void Medic::attack(Matrix<shared_ptr<Character>>& game_board,
     shared_ptr<Character> attacked_player = game_board(dst_coordinates.row, dst_coordinates.col);
     if (attacking_player->getTeam() != attacked_player->getTeam()) {
         attacked_player->setHealth(-attacking_player->getPower());
+        attacking_player->setAmmo(AMMO_DOWN);
         if(attacked_player->getHealth() == 0) {
             attacked_player = nullptr;
             game_board(dst_coordinates.row, dst_coordinates.col) = nullptr;
@@ -38,8 +39,6 @@ void Medic::attack(Matrix<shared_ptr<Character>>& game_board,
     else {
         attacked_player->setHealth(attacking_player->getPower());
     }
-    
-    attacking_player->setAmmo(AMMO_DOWN);
 }
 
 void Medic::reload(Matrix<shared_ptr<Character>>& game_board,const GridPoint& coordinates) {

@@ -32,7 +32,20 @@ Game& Game::operator=(const Game& other) {
     }
     (*this).height = other.height;
     (*this).width = other.width;
-    (*this).board = other.board;
+    Dimensions dims(height, width);
+    Matrix<std::shared_ptr<Character>> new_matrix(dims);
+    (*this).board = new_matrix;
+    for (int i=0; i<(*this).board.height(); i++) {
+        for (int j=0 ;j<(*this).board.width(); j++) {
+            if (!other.board(i,j)) {
+                (*this).board(i,j) = nullptr;
+            }
+            else { 
+                shared_ptr<Character> new_ptr(other.board(i,j)->clone());
+                (*this).board(i,j) = new_ptr;
+            }
+        }
+    }
     return (*this);
 }
 
@@ -147,11 +160,13 @@ bool Game::isOver(Team* winningTeam) const {
     if (found_cpp == 0 && found_python == 0) { //no players on board at all
         return false;
     }
-    else if (found_cpp > 0) {
-        *winningTeam = CPP;
-    }
-    else {
-        *winningTeam = PYTHON;
+    else if (winningTeam != nullptr) {
+        if (found_cpp > 0) {
+            *winningTeam = CPP;
+        }
+        else {
+            *winningTeam = PYTHON;
+        }
     }
     return true;
 }

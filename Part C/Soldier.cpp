@@ -20,11 +20,11 @@ void Soldier::attack(Matrix<shared_ptr<Character>>& game_board,const GridPoint& 
     if (GridPoint::distance(src_coordinates,dst_coordinates) > attacking_player->getRange()) {
         throw typename mtm::OutOfRange();
     }
-    else if (src_coordinates.row != dst_coordinates.row && src_coordinates.col != dst_coordinates.col) { 
-        throw typename mtm::OutOfRange();
-    }
     else if (attacking_player->getAmmo() == 0) {
         throw typename mtm::OutOfAmmo();
+    }
+    else if (src_coordinates.row != dst_coordinates.row && src_coordinates.col != dst_coordinates.col) { 
+        throw typename mtm::IllegalTarget();
     }
     units_t affected_area = ceil(static_cast<double>(attacking_player->getRange())/3);
     for (int i=0; i<game_board.height(); i++) {
