@@ -4,6 +4,8 @@
 #include <iostream>
 
 namespace mtm {
+    // exceptions of the game - prints the appropriate message if there is a problem with a move
+    // done by the user.
     class GameException : public Exception {};
     class IllegalArgument : public GameException {
         public:
