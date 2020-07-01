@@ -105,15 +105,19 @@ namespace mtm {
         public:
         DimensionMismatch(mtm::Dimensions dims_mat_1, mtm::Dimensions dims_mat_2): 
                             dims_mat_1(dims_mat_1), dims_mat_2(dims_mat_2),
-                            error_str("Mtm matrix error: Dimension mismatch: " + dims_mat_1.toString() + " " + dims_mat_2.toString())  {}
+                            error_str("Mtm matrix error: Dimension mismatch: "
+                             + dims_mat_1.toString() + " " + dims_mat_2.toString())  {}
         const char* what() const noexcept override{
             return error_str.c_str();
         }
     };
-    template <class T>
+    // use operator<< to print the matrix, while supplying to the function the matrix that you want to print
+    template <class T> 
     std::ostream& operator<<(std::ostream& os, const Matrix<T>& matrix) {
         return mtm::printMatrix(os,matrix.begin(),matrix.end(),(matrix.width()));
     }
+    // this opertaor+ adds two matrices while checking if they both have the same dimensions and type.
+    // adds the elements on the same spot on one matrix with the other one.
     template <class T>
     Matrix<T> operator+(const Matrix<T>& matrix1, const Matrix<T>& matrix2) {
         mtm::Dimensions dims1(matrix1.height(),matrix1.width());
@@ -129,6 +133,8 @@ namespace mtm {
         }
         return sum_matrix;
     }
+    // opertaor- subtract two matrices while checking if they both have the same dimensions and type.
+    // subtracts the elements on the same spot on one matrix with the other one.
     template <class T>
     Matrix<T> operator-(const Matrix<T>& matrix1, const Matrix<T>& matrix2) {
         mtm::Dimensions dims1(matrix1.height(),matrix1.width());
@@ -140,6 +146,8 @@ namespace mtm {
         sub_matrix = matrix1 + (-matrix2);
         return sub_matrix;
     }
+    // the two opertaor+ below, adds an element to a matrix while checking if the element and the matrix
+    // shares the same type. adds the element to all of the elements inside the matrix.
     template <class T>
     Matrix<T> operator+(const Matrix<T>& matrix, const T element) {
         Matrix<T> sum_matrix(matrix);
@@ -151,6 +159,8 @@ namespace mtm {
         Matrix<T> element_matrix(sum_dims,element);
         return (element_matrix + matrix);
     }
+    // checks if any of the elements inside the matrix conatins the value true, if so returns true
+    // otherwise, returns false.
     template <class T>
     bool any(const Matrix<T>& matrix) {
         for (int i=0; i<matrix.height(); i++) {
@@ -162,6 +172,8 @@ namespace mtm {
         }
         return false;
     }
+    // checks if all of the elements inside the matrix conatins the value true, if so returns true
+    // otherwise, returns false.
     template <class T>
     bool all(const Matrix<T>& matrix) {
         for (int i=0; i<matrix.height(); i++) {
@@ -175,6 +187,7 @@ namespace mtm {
     }
 } 
 
+// constructor - recievs dims of Dimensions type, and a gneric value T to make a new matrix.
 template <class T>
 mtm::Matrix<T>::Matrix(Dimensions dims, T value):
     dims(dims), data(NULL) {
@@ -194,6 +207,7 @@ mtm::Matrix<T>::Matrix(Dimensions dims, T value):
     }
 }
 
+// copy constructor - recievs a matrix, and returns a new copy of it.
 template <class T>
 mtm::Matrix<T>::Matrix(const Matrix<T>& matrix):
     dims(matrix.dims) {
@@ -213,11 +227,13 @@ mtm::Matrix<T>::Matrix(const Matrix<T>& matrix):
     }
 }
 
+// destructor - in charge of erasing the data we have allocated for the matrix.
 template <class T>
 mtm::Matrix<T>::~Matrix() {
     delete[] this->data;
 }
 
+//operator= : recievs an already initialized matrix, and assigning the recived matrix to the requested matrix. 
 template <class T>
 mtm::Matrix<T>& mtm::Matrix<T>::operator=(const Matrix<T>& matrix) {
     if (this == &matrix) {
