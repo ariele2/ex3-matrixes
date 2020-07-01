@@ -1,5 +1,5 @@
-#ifndef HW3_Medic_H
-#define HW3_Medic_H
+#ifndef HW3_MEDIC_H
+#define HW3_MEDIC_H
 #include "Character.h"
 #include "Auxiliaries.h"
 #include "Exceptions.h"
@@ -18,14 +18,6 @@ namespace mtm {
         void attack(Matrix<std::shared_ptr<Character>>& game_board ,
                     const GridPoint& src_coordinates, const GridPoint& dst_coordinates) const override;
         void reload(Matrix<std::shared_ptr<Character>>& game_board ,const GridPoint& coordinates) override;
-        const units_t getHealth() override;
-        const units_t getAmmo() override;
-        const units_t getRange() override;
-        const units_t getPower() override;
-        const Team getTeam() override;
-        const CharacterType getType() override;
-        void setHealth(int health_change) override;
-        virtual void setAmmo(int ammo_change) override;
     };
 }
 

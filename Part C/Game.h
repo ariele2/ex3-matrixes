@@ -5,7 +5,6 @@
 #include "Sniper.h"
 #include "Medic.h"
 #include "Matrix.h"
-#include "Character.h"
 #include "Exceptions.h"
 #include <vector>
 #include <memory>

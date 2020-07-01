@@ -1,3 +1,5 @@
+#ifndef HW3_MEDIC_C
+#define HW3_MEDIC_C
 #include "Medic.h"
 
 using namespace mtm;
@@ -46,39 +48,5 @@ void Medic::reload(Matrix<shared_ptr<Character>>& game_board,const GridPoint& co
     curr_player->setAmmo(ADD_AMMO);
 }
 
-const units_t Medic::getHealth(){
-    return health;
-}
 
-const units_t Medic::getAmmo(){
-    return ammo;
-}
-
-const units_t Medic::getRange(){
-    return range;
-}
-
-const units_t Medic::getPower(){
-    return power;
-}
-
-const Team Medic::getTeam(){
-    return team;
-}
-
-const CharacterType Medic::getType(){
-    return type;
-}
-
-void Medic::setHealth(int health_change) {
-    this->health = health + health_change;
-    if(health < 0){
-        health = 0;
-    }
-}
-void Medic::setAmmo(int ammo_change) {
-    this->ammo = ammo + ammo_change;
-    if (ammo < 0) {
-        ammo = 0;
-    }
-}
+#endif

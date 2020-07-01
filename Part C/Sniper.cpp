@@ -1,4 +1,8 @@
+#ifndef HW3_SNIPER_C
+#define HW3_SNIPER_C
 #include "Sniper.h"
+
+
 
 using namespace mtm;
 using namespace std;
@@ -56,39 +60,5 @@ void Sniper::reload(Matrix<shared_ptr<Character>>& game_board,const GridPoint& c
     curr_player->setAmmo(ADD_AMMO);
 }
    
-const units_t Sniper::getHealth(){
-    return this->health;
-}
 
-const units_t Sniper::getAmmo(){
-    return ammo;
-}
-
-const units_t Sniper::getRange(){
-    return range;
-}
-
-const units_t Sniper::getPower(){
-    return power;
-}
-
-const Team Sniper::getTeam(){
-    return team;
-}
-
-const CharacterType Sniper::getType(){
-    return type;
-}
-
-void Sniper::setHealth(int health_change) {
-    this->health = health + health_change;
-    if(health < 0){
-        health = 0;
-    }
-}
-void Sniper::setAmmo(int ammo_change) {
-    this->ammo = ammo + ammo_change;
-    if (ammo < 0) {
-        ammo = 0;
-    }
-}
+#endif
