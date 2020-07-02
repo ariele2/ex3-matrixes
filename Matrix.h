@@ -246,7 +246,7 @@ mtm::Matrix<T>& mtm::Matrix<T>::operator=(const Matrix<T>& matrix) {
     matrix_holder.data = NULL;
     return (*this);
 }
-
+// makes a diagonal matrix, while recieving the size (rows and columns the same size) and the element
 template <class T>
 mtm::Matrix<T> mtm::Matrix<T>::Diagonal(int size, T element) {
     if (size <= 0) {
@@ -264,21 +264,25 @@ mtm::Matrix<T> mtm::Matrix<T>::Diagonal(int size, T element) {
     return diagonal;
 }
 
+// returns the height of the matrix (number of rows)
 template <class T>
 int mtm::Matrix<T>::height() const {
     return this->dims.getRow();
 }
 
+//returns the width of the matrix (number of columns)
 template <class T>
 int mtm::Matrix<T>::width() const {
     return this->dims.getCol();
 }
 
+// return the size of the matrix (rows*columns)
 template <class T>
 int mtm::Matrix<T>::size() const {
     return (this->dims.getRow() * this->dims.getCol());
 }
 
+// transposes the matrix - makes the rows as columns and the columns as rows.
 template <class T>
 mtm::Matrix<T> mtm::Matrix<T>::transpose() const {
     mtm::Dimensions trans_dims(dims.getCol(),dims.getRow());
@@ -291,6 +295,7 @@ mtm::Matrix<T> mtm::Matrix<T>::transpose() const {
     return trans_matrix;
 }
 
+// unary operator - , use this to make all the elements in the matrix to the opposite mark.
 template <class T>
 mtm::Matrix<T> mtm::Matrix<T>::operator-() const {
     mtm::Matrix<T> new_matrix(this->dims);
@@ -302,6 +307,7 @@ mtm::Matrix<T> mtm::Matrix<T>::operator-() const {
     return new_matrix;
 }
 
+// adds an element to the given matrix - (adds it to all of the elements in the matrix)
 template <class T>
 mtm::Matrix<T>& mtm::Matrix<T>::operator+=(const T element) {
     mtm::Matrix<T> to_add(this->dims, element);
@@ -309,6 +315,7 @@ mtm::Matrix<T>& mtm::Matrix<T>::operator+=(const T element) {
     return *this;
 }
 
+// operator() - use this to access an element inside the matrix by (row,column) syntax. (non const matrix)
 template <class T>
 T& mtm::Matrix<T>::operator()(int row, int col){
     if (row >= (*this).height() || row < 0 || col >= (*this).width() || col < 0) {
@@ -317,6 +324,7 @@ T& mtm::Matrix<T>::operator()(int row, int col){
     return data[dims.getCol()*row + col];
 }
 
+// operator() - use this to access an element inside the matrix by (row,column) syntax. (const matrix)
 template <class T>
 const T& mtm::Matrix<T>::operator()(int row, int col) const{
     if (row >= (*this).height() || row < 0 || col >= (*this).width() || col < 0) {
@@ -325,6 +333,7 @@ const T& mtm::Matrix<T>::operator()(int row, int col) const{
     return data[dims.getCol()*row + col];
 }
 
+// a helper function - changes all true elements inside the matrix to false, and false to true.
 template<class T>
 mtm::Matrix<bool>& mtm::Matrix<T>::inverseMatrix() {
     for (int i=0; i<(*this).height(); i++) {
@@ -335,6 +344,8 @@ mtm::Matrix<bool>& mtm::Matrix<T>::inverseMatrix() {
     return (*this);
 }
 
+// use this to find how many elements in the matrix are equal to a given element. returns a bool matrix
+// with true on the spots where it is equal, and false where it is not.
 template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator==(T element) const{
     mtm::Matrix<bool> result_mat(this->dims,false);
@@ -348,6 +359,7 @@ mtm::Matrix<bool> mtm::Matrix<T>::operator==(T element) const{
     return result_mat;
 }
 
+// same as the operator== but the other way (fins all the elements not equal to the given element)
 template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator!=(T element) const {
     mtm::Matrix<bool> result_mat(this->dims);
@@ -355,6 +367,8 @@ mtm::Matrix<bool> mtm::Matrix<T>::operator!=(T element) const {
     return result_mat.inverseMatrix();
 }
 
+// use this to find how many elements in the matrix are bigger than a given element. returns a bool matrix
+// with true on the spots where it is bigger, and false where it is not.
 template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator>(T element) const {
     mtm::Matrix<bool> result_mat(this->dims,false);
@@ -368,6 +382,8 @@ mtm::Matrix<bool> mtm::Matrix<T>::operator>(T element) const {
     return result_mat;
 } 
 
+// use this to find how many elements in the matrix are smaller than a given element. returns a bool matrix
+// with true on the spots where it is smaller, and false where it is not.
 template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator<(T element) const {
     mtm::Matrix<bool> result_mat(this->dims,false);
@@ -381,6 +397,8 @@ mtm::Matrix<bool> mtm::Matrix<T>::operator<(T element) const {
     return result_mat;
 }
 
+// use this to find how many elements in the matrix are smaller or equal to a given element. returns a bool matrix
+// with true on the spots where it is smaller or equal, and false where it is not.
 template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator<=(T element) const {
     mtm::Matrix<bool> result_mat(this->dims);
@@ -388,6 +406,8 @@ mtm::Matrix<bool> mtm::Matrix<T>::operator<=(T element) const {
     return result_mat.inverseMatrix();
 }
 
+// use this to find how many elements in the matrix are bigger or equal to a given element. returns a bool matrix
+// with true on the spots where it is bigger or equal, and false where it is not.
 template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator>=(T element) const {
     mtm::Matrix<bool> result_mat(this->dims);
