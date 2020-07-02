@@ -38,6 +38,7 @@ namespace mtm {
         Matrix<bool> operator<(T element) const;
         Matrix<bool> operator<=(T element) const;
         Matrix<bool> operator>=(T element) const;
+        
         template<class Predicate>
         Matrix apply(Predicate predicate) const {
             mtm::Matrix<T> new_matrix((*this).dims);
@@ -118,6 +119,7 @@ namespace mtm {
     }
     // this opertaor+ adds two matrices while checking if they both have the same dimensions and type.
     // adds the elements on the same spot on one matrix with the other one.
+    //assuming there is operator+ for type T
     template <class T>
     Matrix<T> operator+(const Matrix<T>& matrix1, const Matrix<T>& matrix2) {
         mtm::Dimensions dims1(matrix1.height(),matrix1.width());
@@ -135,6 +137,7 @@ namespace mtm {
     }
     // opertaor- subtract two matrices while checking if they both have the same dimensions and type.
     // subtracts the elements on the same spot on one matrix with the other one.
+    //assuming there is operator- for type T
     template <class T>
     Matrix<T> operator-(const Matrix<T>& matrix1, const Matrix<T>& matrix2) {
         mtm::Dimensions dims1(matrix1.height(),matrix1.width());
@@ -148,6 +151,7 @@ namespace mtm {
     }
     // the two opertaor+ below, adds an element to a matrix while checking if the element and the matrix
     // shares the same type. adds the element to all of the elements inside the matrix.
+    //assuming there is operator+ for type T
     template <class T>
     Matrix<T> operator+(const Matrix<T>& matrix, const T element) {
         Matrix<T> sum_matrix(matrix);
@@ -208,6 +212,7 @@ mtm::Matrix<T>::Matrix(Dimensions dims, T value):
 }
 
 // copy constructor - recievs a matrix, and returns a new copy of it.
+//assuming there is operator= for type T
 template <class T>
 mtm::Matrix<T>::Matrix(const Matrix<T>& matrix):
     dims(matrix.dims) {
@@ -247,6 +252,7 @@ mtm::Matrix<T>& mtm::Matrix<T>::operator=(const Matrix<T>& matrix) {
     return (*this);
 }
 // makes a diagonal matrix, while recieving the size (rows and columns the same size) and the element
+//assuming there is operator= for type T
 template <class T>
 mtm::Matrix<T> mtm::Matrix<T>::Diagonal(int size, T element) {
     if (size <= 0) {
@@ -283,6 +289,7 @@ int mtm::Matrix<T>::size() const {
 }
 
 // transposes the matrix - makes the rows as columns and the columns as rows.
+//assuming there is operator= for type T
 template <class T>
 mtm::Matrix<T> mtm::Matrix<T>::transpose() const {
     mtm::Dimensions trans_dims(dims.getCol(),dims.getRow());
@@ -296,6 +303,7 @@ mtm::Matrix<T> mtm::Matrix<T>::transpose() const {
 }
 
 // unary operator - , use this to make all the elements in the matrix to the opposite mark.
+//assuming there is  unary operator- for type T
 template <class T>
 mtm::Matrix<T> mtm::Matrix<T>::operator-() const {
     mtm::Matrix<T> new_matrix(this->dims);
@@ -308,6 +316,7 @@ mtm::Matrix<T> mtm::Matrix<T>::operator-() const {
 }
 
 // adds an element to the given matrix - (adds it to all of the elements in the matrix)
+//assuming there is operator+ for type T
 template <class T>
 mtm::Matrix<T>& mtm::Matrix<T>::operator+=(const T element) {
     mtm::Matrix<T> to_add(this->dims, element);
@@ -346,6 +355,7 @@ mtm::Matrix<bool>& mtm::Matrix<T>::inverseMatrix() {
 
 // use this to find how many elements in the matrix are equal to a given element. returns a bool matrix
 // with true on the spots where it is equal, and false where it is not.
+//assuming there is operator== for type T
 template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator==(T element) const{
     mtm::Matrix<bool> result_mat(this->dims,false);
@@ -360,6 +370,7 @@ mtm::Matrix<bool> mtm::Matrix<T>::operator==(T element) const{
 }
 
 // same as the operator== but the other way (fins all the elements not equal to the given element)
+//assuming there is operator== for type T
 template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator!=(T element) const {
     mtm::Matrix<bool> result_mat(this->dims);
@@ -369,6 +380,7 @@ mtm::Matrix<bool> mtm::Matrix<T>::operator!=(T element) const {
 
 // use this to find how many elements in the matrix are bigger than a given element. returns a bool matrix
 // with true on the spots where it is bigger, and false where it is not.
+//assuming there is operator> for type T
 template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator>(T element) const {
     mtm::Matrix<bool> result_mat(this->dims,false);
@@ -384,6 +396,7 @@ mtm::Matrix<bool> mtm::Matrix<T>::operator>(T element) const {
 
 // use this to find how many elements in the matrix are smaller than a given element. returns a bool matrix
 // with true on the spots where it is smaller, and false where it is not.
+//assuming there is operator< for type T
 template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator<(T element) const {
     mtm::Matrix<bool> result_mat(this->dims,false);
@@ -399,6 +412,7 @@ mtm::Matrix<bool> mtm::Matrix<T>::operator<(T element) const {
 
 // use this to find how many elements in the matrix are smaller or equal to a given element. returns a bool matrix
 // with true on the spots where it is smaller or equal, and false where it is not.
+//assuming there is operator> for type T
 template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator<=(T element) const {
     mtm::Matrix<bool> result_mat(this->dims);
@@ -408,6 +422,7 @@ mtm::Matrix<bool> mtm::Matrix<T>::operator<=(T element) const {
 
 // use this to find how many elements in the matrix are bigger or equal to a given element. returns a bool matrix
 // with true on the spots where it is bigger or equal, and false where it is not.
+//assuming there is operator< for type T
 template <class T>
 mtm::Matrix<bool> mtm::Matrix<T>::operator>=(T element) const {
     mtm::Matrix<bool> result_mat(this->dims);
@@ -415,12 +430,14 @@ mtm::Matrix<bool> mtm::Matrix<T>::operator>=(T element) const {
     return result_mat.inverseMatrix();
 }
 
+// iterator constructor - makes a new iterator that contains a pointer to matrix and the index.
 template <class T>
 mtm::Matrix<T>::iterator::iterator(mtm::Matrix<T>* matrix, int index):
  matrix(matrix),
  index(index)
 {}
 
+// iterator operator* - granting access to the element the iterator points to.
 template <class T>
 T& mtm::Matrix<T>::iterator::operator*() const {
     if(index < 0 || index >= matrix->size()) {
@@ -429,12 +446,14 @@ T& mtm::Matrix<T>::iterator::operator*() const {
     return matrix->data[index];
 }
 
+// operator++ moves the interator by one index ahead (happens befor the operation).
 template <class T>
 typename mtm::Matrix<T>::iterator& mtm::Matrix<T>::iterator::operator++() {
     ++index;
     return *this;
 }
 
+// operator++ moves the interator by one index ahead (happens after the operation).
 template <class T>
 typename mtm::Matrix<T>::iterator mtm::Matrix<T>::iterator::operator++(int) {
     iterator result = *this;
@@ -442,32 +461,38 @@ typename mtm::Matrix<T>::iterator mtm::Matrix<T>::iterator::operator++(int) {
     return result;
 } 
 
+// operator== check equality between the pointed objects of the iterators comparing.
 template <class T>
 bool mtm::Matrix<T>::iterator::operator==(const iterator& i) const {
     return index == i.index;
 }
 
+// operator!= check non equality between the pointed objects of the iterators comparing.
 template <class T>
 bool mtm::Matrix<T>::iterator::operator!=(const iterator& i) const {
     return !(*this == i);
 }
 
+// returns a new iterator to the begining of the matrix it points to.
 template <class T>
 typename mtm::Matrix<T>::iterator mtm::Matrix<T>::begin() {
     return iterator(this, 0);
 }
 
+// returns a new iterator to the end of the matrix it points to.
 template <class T>
 typename mtm::Matrix<T>::iterator mtm::Matrix<T>::end() {
     return iterator(this, this->size());
 }
 
+// const iterator constructor - makes a new iterator that contains a pointer to matrix and the index.
 template <class T>
 mtm::Matrix<T>::const_iterator::const_iterator(const mtm::Matrix<T>* matrix, int index):
  matrix(matrix),
  index(index)
 {}
 
+// const iterator operator* - granting access to the element the iterator points to (cant change the element).
 template <class T>
 const T& mtm::Matrix<T>::const_iterator::operator*() const {
     if(index < 0 || index >= matrix->size()) {
@@ -476,12 +501,14 @@ const T& mtm::Matrix<T>::const_iterator::operator*() const {
     return matrix->data[index];
 }
 
+// const operator++ moves the interator by one index ahead (happens befor the operation).
 template <class T>
 const typename mtm::Matrix<T>::const_iterator& mtm::Matrix<T>::const_iterator::operator++() {
     ++index;
     return *this;
 }
 
+// operator++ moves the interator by one index ahead (happens after the operation).
 template <class T>
 const typename mtm::Matrix<T>::const_iterator mtm::Matrix<T>::const_iterator::operator++(int) {
     const_iterator result = *this;
@@ -489,21 +516,25 @@ const typename mtm::Matrix<T>::const_iterator mtm::Matrix<T>::const_iterator::op
     return result;
 } 
 
+// operator== check equality between the pointed objects of the iterators comparing.
 template <class T>
 bool mtm::Matrix<T>::const_iterator::operator==(const const_iterator& i) const {
     return index == i.index;
 }
 
+// operator!= check non equality between the pointed objects of the iterators comparing.
 template <class T>
 bool mtm::Matrix<T>::const_iterator::operator!=(const const_iterator& i) const {
     return !(*this == i);
 }
 
+// returns a new iterator to the begining of the matrix it points to.
 template <class T>
 const typename mtm::Matrix<T>::const_iterator mtm::Matrix<T>::begin() const {
     return const_iterator(this, 0);
 }
 
+// const iterator constructor - makes a new iterator that contains a pointer to matrix and the index.
 template <class T>
 const typename mtm::Matrix<T>::const_iterator mtm::Matrix<T>::end() const{
     return const_iterator(this, this->size());
