@@ -430,15 +430,14 @@ mtm::Matrix<bool> mtm::Matrix<T>::operator>=(T element) const {
     return result_mat.inverseMatrix();
 }
 
-// constructor - recievs pointer to Matrix class, and an index to create a new iterator fo the matrix.
+// iterator constructor - makes a new iterator that contains a pointer to matrix and the index.
 template <class T>
 mtm::Matrix<T>::iterator::iterator(mtm::Matrix<T>* matrix, int index):
  matrix(matrix),
  index(index)
 {}
 
-//operator* - returns the current element of the matrix that's pointed by the iterator.
-//The value of the element can be changed
+// iterator operator* - granting access to the element the iterator points to.
 template <class T>
 T& mtm::Matrix<T>::iterator::operator*() const {
     if(index < 0 || index >= matrix->size()) {
@@ -447,14 +446,14 @@ T& mtm::Matrix<T>::iterator::operator*() const {
     return matrix->data[index];
 }
 
-//operator++ - moving the iterator one step forward (prefix ++it)
+// operator++ moves the interator by one index ahead (happens befor the operation).
 template <class T>
 typename mtm::Matrix<T>::iterator& mtm::Matrix<T>::iterator::operator++() {
     ++index;
     return *this;
 }
 
-//operator++ - moving the iterator one step forward (postfix ++it)
+// operator++ moves the interator by one index ahead (happens after the operation).
 template <class T>
 typename mtm::Matrix<T>::iterator mtm::Matrix<T>::iterator::operator++(int) {
     iterator result = *this;
@@ -462,39 +461,38 @@ typename mtm::Matrix<T>::iterator mtm::Matrix<T>::iterator::operator++(int) {
     return result;
 } 
 
-//operator== - checks if the iterators are equal(pointing to same element in the matrix)
+// operator== check equality between the pointed objects of the iterators comparing.
 template <class T>
 bool mtm::Matrix<T>::iterator::operator==(const iterator& i) const {
     return index == i.index;
 }
 
-//operator!= - checks if the iterators are  not equal(not pointing to same element in the matrix)
+// operator!= check non equality between the pointed objects of the iterators comparing.
 template <class T>
 bool mtm::Matrix<T>::iterator::operator!=(const iterator& i) const {
     return !(*this == i);
 }
 
-//begin() - returns iterator to matrix that starts in the first element of the matrix.
+// returns a new iterator to the begining of the matrix it points to.
 template <class T>
 typename mtm::Matrix<T>::iterator mtm::Matrix<T>::begin() {
     return iterator(this, 0);
 }
 
-//end() - returns iterator to matrix that points to one past the last element of the matrix.
+// returns a new iterator to the end of the matrix it points to.
 template <class T>
 typename mtm::Matrix<T>::iterator mtm::Matrix<T>::end() {
     return iterator(this, this->size());
 }
 
-// constructor - recievs pointer to const Matrix class, and an index to create a new const iterator fo the matrix.
+// const iterator constructor - makes a new iterator that contains a pointer to matrix and the index.
 template <class T>
 mtm::Matrix<T>::const_iterator::const_iterator(const mtm::Matrix<T>* matrix, int index):
  matrix(matrix),
  index(index)
 {}
 
-//operator* - returns the current element of the matrix that's pointed by the const iterator.
-//The value of the element can't be changed.
+// const iterator operator* - granting access to the element the iterator points to (cant change the element).
 template <class T>
 const T& mtm::Matrix<T>::const_iterator::operator*() const {
     if(index < 0 || index >= matrix->size()) {
@@ -503,14 +501,14 @@ const T& mtm::Matrix<T>::const_iterator::operator*() const {
     return matrix->data[index];
 }
 
-//operator++ - moving the const iterator one step forward (prefix ++it)
+// const operator++ moves the interator by one index ahead (happens befor the operation).
 template <class T>
 const typename mtm::Matrix<T>::const_iterator& mtm::Matrix<T>::const_iterator::operator++() {
     ++index;
     return *this;
 }
 
-//operator++ - moving the const iterator one step forward (postfix ++it)
+// operator++ moves the interator by one index ahead (happens after the operation).
 template <class T>
 const typename mtm::Matrix<T>::const_iterator mtm::Matrix<T>::const_iterator::operator++(int) {
     const_iterator result = *this;
@@ -518,25 +516,25 @@ const typename mtm::Matrix<T>::const_iterator mtm::Matrix<T>::const_iterator::op
     return result;
 } 
 
-//operator== - checks if the const iterators are equal(pointing to same element in the matrix)
+// operator== check equality between the pointed objects of the iterators comparing.
 template <class T>
 bool mtm::Matrix<T>::const_iterator::operator==(const const_iterator& i) const {
     return index == i.index;
 }
 
-//operator== - checks if the const iterators are not equal(not pointing to same element in the matrix)
+// operator!= check non equality between the pointed objects of the iterators comparing.
 template <class T>
 bool mtm::Matrix<T>::const_iterator::operator!=(const const_iterator& i) const {
     return !(*this == i);
 }
 
-//begin() - returns const iterator to matrix that starts in the first element of the matrix.
+// returns a new iterator to the begining of the matrix it points to.
 template <class T>
 const typename mtm::Matrix<T>::const_iterator mtm::Matrix<T>::begin() const {
     return const_iterator(this, 0);
 }
 
-//end() - returns const iterator to matrix that points to one past the last element of the matrix.
+// const iterator constructor - makes a new iterator that contains a pointer to matrix and the index.
 template <class T>
 const typename mtm::Matrix<T>::const_iterator mtm::Matrix<T>::end() const{
     return const_iterator(this, this->size());
